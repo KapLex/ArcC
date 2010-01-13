@@ -4,8 +4,8 @@
     Interface for time functions
 */
 
-#ifndef _TIME_H_
-#define _TIME_H_
+#ifndef _ARC_TIME_H_
+#define _ARC_TIME_H_
 
 // Std
 #include <stdbool.h>
@@ -79,7 +79,7 @@ unsigned int ARC_TimeGetFPS(ARC_Time *t);
  *
  *	\param Limit FPS to this number
  */
-void ARC_LimitFPS(ARC_Time *t, int maxFps);
+void ARC_TimeLimitFPS(ARC_Time *t, int maxFps);
 
 #ifdef __cplusplus
 }

@@ -5,8 +5,8 @@
     Game Window
 */
 
-#ifndef _WINDOW_H_
-#define _WINDOW_H_
+#ifndef _ARC_WINDOW_H_
+#define _ARC_WINDOW_H_
 
 // Std
 #include <stdbool.h>
@@ -73,7 +73,7 @@ int ARC_WindowResize(ARC_Window *w, int argWidth, int argHeight);
 /**
  * Close the game application
  */
-int ARC_WindowQuit();
+int ARC_WindowQuit(ARC_Window *w);
 
 /**
  * Toggle fullscreen (works on linux only)

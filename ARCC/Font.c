@@ -66,8 +66,10 @@ int make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base )
 	//We use the ?: operator so that value which we use
 	//will be 0 if we are in the padding zone, and whatever
 	//is the the Freetype bitmap otherwise.
-	for(int j=0; j <height;j++) {
-		for(int i=0; i < width; i++){
+	int i=0, j=0;
+
+	for(j=0; j <height;j++) {
+		for(i=0; i < width; i++){
 			expanded_data[2*(i+j*width)]= expanded_data[2*(i+j*width)+1] =
 				(i>=bitmap.width || j>=bitmap.rows) ?
 				0 : bitmap.buffer[i + bitmap.width*j];
@@ -185,8 +187,9 @@ int ARC_FontInit(ARC_Font *f,  char *fname, unsigned int height)
 	f->list_base=glGenLists(128);
 	glGenTextures( 128, f->textures );
 
+	unsigned char i=0;
 	//This is where we actually create each of the fonts display lists.
-	for(unsigned char i=0;i<128;i++)
+	for(i=0;i<128;i++)
 		make_dlist(face,i,f->list_base,f->textures);
 
 	//We don't need the face information now that the display

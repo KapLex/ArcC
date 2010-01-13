@@ -16,9 +16,9 @@ ArcC API
 	packages=['pyArc'],
 	py_modules=['ArcC'],
 	ext_modules = [Extension('_ArcC',
-		    include_dirs = ['/usr/include', ARCCdir],
-                    libraries = ['GL', 'SDL', 'log4c'],
-                    library_dirs = ['/usr/lib'],
-                    sources = ['swig.i', ARCCdir + 'Window.c', ARCCdir + 'Log.c'],
-		    swig_opts=['-I' + ARCCdir]
+    include_dirs = ['/usr/include', '/usr/include/freetype2', ARCCdir],
+    libraries = ['GL', 'SDL', 'log4c'],
+    library_dirs = ['/usr/lib'],
+    sources = ['swig.i', ARCCdir + 'Window.c', ARCCdir + 'Log.c', ARCCdir + 'Font.c'],
+    swig_opts=['-I' + ARCCdir]
                     )])

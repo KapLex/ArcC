@@ -2480,13 +2480,15 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_SDL_Surface swig_types[0]
-#define SWIGTYPE_p_Uint32 swig_types[1]
-#define SWIGTYPE_p_Window swig_types[2]
-#define SWIGTYPE_p_char swig_types[3]
-#define SWIGTYPE_p_log4c_category_t swig_types[4]
-static swig_type_info *swig_types[6];
-static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
+#define SWIGTYPE_p_ARC_Font swig_types[0]
+#define SWIGTYPE_p_ARC_Time swig_types[1]
+#define SWIGTYPE_p_ARC_Window swig_types[2]
+#define SWIGTYPE_p_GLuint swig_types[3]
+#define SWIGTYPE_p_SDL_Surface swig_types[4]
+#define SWIGTYPE_p_char swig_types[5]
+#define SWIGTYPE_p_log4c_category_t swig_types[6]
+static swig_type_info *swig_types[8];
+static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2514,8 +2516,83 @@ static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
 
 
 /* Includes the header in the wrapper code */
-#include "Window.h"
-#include "Log.h" 
+#include "Font.h"
+#include "Log.h"
+#include "Time.h"
+#include "Window.h"  
+
+
+#include <float.h>
+
+
+SWIGINTERN int
+SWIG_AsVal_double (PyObject *obj, double *val)
+{
+  int res = SWIG_TypeError;
+  if (PyFloat_Check(obj)) {
+    if (val) *val = PyFloat_AsDouble(obj);
+    return SWIG_OK;
+  } else if (PyInt_Check(obj)) {
+    if (val) *val = PyInt_AsLong(obj);
+    return SWIG_OK;
+  } else if (PyLong_Check(obj)) {
+    double v = PyLong_AsDouble(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    int dispatch = 0;
+    double d = PyFloat_AsDouble(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = d;
+      return SWIG_AddCast(SWIG_OK);
+    } else {
+      PyErr_Clear();
+    }
+    if (!dispatch) {
+      long v = PyLong_AsLong(obj);
+      if (!PyErr_Occurred()) {
+	if (val) *val = v;
+	return SWIG_AddCast(SWIG_AddCast(SWIG_OK));
+      } else {
+	PyErr_Clear();
+      }
+    }
+  }
+#endif
+  return res;
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_float (PyObject * obj, float *val)
+{
+  double v;
+  int res = SWIG_AsVal_double (obj, &v);
+  if (SWIG_IsOK(res)) {
+    if ((v < -FLT_MAX || v > FLT_MAX)) {
+      return SWIG_OverflowError;
+    } else {
+      if (val) *val = (float)(v);
+    }
+  }  
+  return res;
+}
+
+
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_float  (float value)
+{    
+  return SWIG_From_double  (value);
+}
 
 
 SWIGINTERN swig_type_info*
@@ -2586,30 +2663,6 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 
 
 
-SWIGINTERNINLINE PyObject *
-SWIG_FromCharPtrAndSize(const char* carray, size_t size)
-{
-  if (carray) {
-    if (size > INT_MAX) {
-      swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
-      return pchar_descriptor ? 
-	SWIG_NewPointerObj((char *)(carray), pchar_descriptor, 0) : SWIG_Py_Void();
-    } else {
-      return PyString_FromStringAndSize(carray, (int)(size));
-    }
-  } else {
-    return SWIG_Py_Void();
-  }
-}
-
-
-SWIGINTERNINLINE PyObject * 
-SWIG_FromCharPtr(const char *cptr)
-{ 
-  return SWIG_FromCharPtrAndSize(cptr, (cptr ? strlen(cptr) : 0));
-}
-
-
 #include <limits.h>
 #if !defined(SWIG_NO_LLONG_MAX)
 # if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
@@ -2618,53 +2671,6 @@ SWIG_FromCharPtr(const char *cptr)
 #   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
 # endif
 #endif
-
-
-SWIGINTERN int
-SWIG_AsVal_double (PyObject *obj, double *val)
-{
-  int res = SWIG_TypeError;
-  if (PyFloat_Check(obj)) {
-    if (val) *val = PyFloat_AsDouble(obj);
-    return SWIG_OK;
-  } else if (PyInt_Check(obj)) {
-    if (val) *val = PyInt_AsLong(obj);
-    return SWIG_OK;
-  } else if (PyLong_Check(obj)) {
-    double v = PyLong_AsDouble(obj);
-    if (!PyErr_Occurred()) {
-      if (val) *val = v;
-      return SWIG_OK;
-    } else {
-      PyErr_Clear();
-    }
-  }
-#ifdef SWIG_PYTHON_CAST_MODE
-  {
-    int dispatch = 0;
-    double d = PyFloat_AsDouble(obj);
-    if (!PyErr_Occurred()) {
-      if (val) *val = d;
-      return SWIG_AddCast(SWIG_OK);
-    } else {
-      PyErr_Clear();
-    }
-    if (!dispatch) {
-      long v = PyLong_AsLong(obj);
-      if (!PyErr_Occurred()) {
-	if (val) *val = v;
-	return SWIG_AddCast(SWIG_AddCast(SWIG_OK));
-      } else {
-	PyErr_Clear();
-      }
-    }
-  }
-#endif
-  return res;
-}
-
-
-#include <float.h>
 
 
 #include <math.h>
@@ -2697,6 +2703,91 @@ SWIG_CanCastAsInteger(double *d, double min, double max) {
    }
   }
   return 0;
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val) 
+{
+  if (PyInt_Check(obj)) {
+    long v = PyInt_AsLong(obj);
+    if (v >= 0) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      return SWIG_OverflowError;
+    }
+  } else if (PyLong_Check(obj)) {
+    unsigned long v = PyLong_AsUnsignedLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    int dispatch = 0;
+    unsigned long v = PyLong_AsUnsignedLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_AddCast(SWIG_OK);
+    } else {
+      PyErr_Clear();
+    }
+    if (!dispatch) {
+      double d;
+      int res = SWIG_AddCast(SWIG_AsVal_double (obj,&d));
+      if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, 0, ULONG_MAX)) {
+	if (val) *val = (unsigned long)(d);
+	return res;
+      }
+    }
+  }
+#endif
+  return SWIG_TypeError;
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
+{
+  unsigned long v;
+  int res = SWIG_AsVal_unsigned_SS_long (obj, &v);
+  if (SWIG_IsOK(res)) {
+    if ((v > UINT_MAX)) {
+      return SWIG_OverflowError;
+    } else {
+      if (val) *val = (unsigned int)(v);
+    }
+  }  
+  return res;
+}
+
+
+  #define SWIG_From_long   PyInt_FromLong 
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_int  (int value)
+{    
+  return SWIG_From_long  (value);
+}
+
+
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long  (unsigned long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLong(value) : PyInt_FromLong((long)(value)); 
+}
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_unsigned_SS_int  (unsigned int value)
+{    
+  return SWIG_From_unsigned_SS_long  (value);
 }
 
 
@@ -2755,26 +2846,40 @@ SWIG_AsVal_int (PyObject * obj, int *val)
 }
 
 
-  #define SWIG_From_long   PyInt_FromLong 
-
-
 SWIGINTERNINLINE PyObject *
-SWIG_From_int  (int value)
-{    
-  return SWIG_From_long  (value);
+SWIG_FromCharPtrAndSize(const char* carray, size_t size)
+{
+  if (carray) {
+    if (size > INT_MAX) {
+      swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
+      return pchar_descriptor ? 
+	SWIG_NewPointerObj((char *)(carray), pchar_descriptor, 0) : SWIG_Py_Void();
+    } else {
+      return PyString_FromStringAndSize(carray, (int)(size));
+    }
+  } else {
+    return SWIG_Py_Void();
+  }
+}
+
+
+SWIGINTERNINLINE PyObject * 
+SWIG_FromCharPtr(const char *cptr)
+{ 
+  return SWIG_FromCharPtrAndSize(cptr, (cptr ? strlen(cptr) : 0));
 }
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN int Swig_var_windowLog_set(PyObject *_val) {
+SWIGINTERN int Swig_var_fontLog_set(PyObject *_val) {
   {
     void *argp = 0;
     int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_log4c_category_t,  0 );  
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""windowLog""' of type '""log4c_category_t *""'");
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""fontLog""' of type '""log4c_category_t *""'");
     }
-    windowLog = (log4c_category_t *)(argp);
+    fontLog = (log4c_category_t *)(argp);
   }
   return 0;
 fail:
@@ -2782,149 +2887,36 @@ fail:
 }
 
 
-SWIGINTERN PyObject *Swig_var_windowLog_get(void) {
+SWIGINTERN PyObject *Swig_var_fontLog_get(void) {
   PyObject *pyobj = 0;
   
-  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(windowLog), SWIGTYPE_p_log4c_category_t,  0 );
+  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(fontLog), SWIGTYPE_p_log4c_category_t,  0 );
   return pyobj;
 }
 
 
-SWIGINTERN PyObject *_wrap_Window_title_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ARC_Font_height_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  char *arg2 = (char *) 0 ;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
+  float arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Window_title_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_title_set" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Window_title_set" "', argument " "2"" of type '" "char *""'");
-  }
-  arg2 = (char *)(buf2);
-  if (arg1->title) free((char*)arg1->title);
-  if (arg2) {
-    size_t size = strlen((const char *)(arg2)) + 1;
-    arg1->title = (char *)(char *)memcpy((char *)malloc((size)*sizeof(char)), (const char *)(arg2), sizeof(char)*(size));
-  } else {
-    arg1->title = 0;
-  }
-  resultobj = SWIG_Py_Void();
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return resultobj;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_title_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  char *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Window_title_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_title_get" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  result = (char *) ((arg1)->title);
-  resultobj = SWIG_FromCharPtr((const char *)result);
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_width_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  int arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
+  float val2 ;
   int ecode2 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:Window_width_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Font_height_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_width_set" "', argument " "1"" of type '" "Window *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Font_height_set" "', argument " "1"" of type '" "ARC_Font *""'"); 
   }
-  arg1 = (Window *)(argp1);
-  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  arg1 = (ARC_Font *)(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Window_width_set" "', argument " "2"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Font_height_set" "', argument " "2"" of type '" "float""'");
   } 
-  arg2 = (int)(val2);
-  if (arg1) (arg1)->width = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_width_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Window_width_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_width_get" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  result = (int) ((arg1)->width);
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_height_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  int arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Window_height_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_height_set" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  ecode2 = SWIG_AsVal_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Window_height_set" "', argument " "2"" of type '" "int""'");
-  } 
-  arg2 = (int)(val2);
+  arg2 = (float)(val2);
   if (arg1) (arg1)->height = arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -2933,188 +2925,32 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Window_height_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ARC_Font_height_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  int result;
+  float result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:Window_height_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Font_height_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_height_get" "', argument " "1"" of type '" "Window *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Font_height_get" "', argument " "1"" of type '" "ARC_Font *""'"); 
   }
-  arg1 = (Window *)(argp1);
-  result = (int) ((arg1)->height);
-  resultobj = SWIG_From_int((int)(result));
+  arg1 = (ARC_Font *)(argp1);
+  result = (float) ((arg1)->height);
+  resultobj = SWIG_From_float((float)(result));
   return resultobj;
 fail:
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_Window_isFullscreen_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ARC_Font_textures_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  int arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Window_isFullscreen_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_isFullscreen_set" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  ecode2 = SWIG_AsVal_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Window_isFullscreen_set" "', argument " "2"" of type '" "int""'");
-  } 
-  arg2 = (int)(val2);
-  if (arg1) (arg1)->isFullscreen = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_isFullscreen_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Window_isFullscreen_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_isFullscreen_get" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  result = (int) ((arg1)->isFullscreen);
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_isResizable_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  int arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Window_isResizable_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_isResizable_set" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  ecode2 = SWIG_AsVal_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Window_isResizable_set" "', argument " "2"" of type '" "int""'");
-  } 
-  arg2 = (int)(val2);
-  if (arg1) (arg1)->isResizable = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_isResizable_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Window_isResizable_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_isResizable_get" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  result = (int) ((arg1)->isResizable);
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_bpp_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  int arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Window_bpp_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_bpp_set" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  ecode2 = SWIG_AsVal_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Window_bpp_set" "', argument " "2"" of type '" "int""'");
-  } 
-  arg2 = (int)(val2);
-  if (arg1) (arg1)->bpp = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_bpp_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Window_bpp_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_bpp_get" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  result = (int) ((arg1)->bpp);
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Window_screen_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  SDL_Surface *arg2 = (SDL_Surface *) 0 ;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
+  GLuint *arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -3122,18 +2958,25 @@ SWIGINTERN PyObject *_wrap_Window_screen_set(PyObject *SWIGUNUSEDPARM(self), PyO
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:Window_screen_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Font_textures_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_screen_set" "', argument " "1"" of type '" "Window *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Font_textures_set" "', argument " "1"" of type '" "ARC_Font *""'"); 
   }
-  arg1 = (Window *)(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_SDL_Surface, SWIG_POINTER_DISOWN |  0 );
+  arg1 = (ARC_Font *)(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_GLuint, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Window_screen_set" "', argument " "2"" of type '" "SDL_Surface *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_Font_textures_set" "', argument " "2"" of type '" "GLuint [128]""'"); 
+  } 
+  arg2 = (GLuint *)(argp2);
+  {
+    if (arg2) {
+      size_t ii = 0;
+      for (; ii < (size_t)128; ++ii) arg1->textures[ii] = arg2[ii];
+    } else {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""textures""' of type '""GLuint [128]""'");
+    }
   }
-  arg2 = (SDL_Surface *)(argp2);
-  if (arg1) (arg1)->screen = arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -3141,54 +2984,112 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Window_screen_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ARC_Font_textures_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  SDL_Surface *result = 0 ;
+  GLuint *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:Window_screen_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Font_textures_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Window_screen_get" "', argument " "1"" of type '" "Window *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Font_textures_get" "', argument " "1"" of type '" "ARC_Font *""'"); 
   }
-  arg1 = (Window *)(argp1);
-  result = (SDL_Surface *) ((arg1)->screen);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_SDL_Surface, 0 |  0 );
+  arg1 = (ARC_Font *)(argp1);
+  result = (GLuint *)(GLuint *) ((arg1)->textures);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_GLuint, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_new_Window(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ARC_Font_list_base_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Window *result = 0 ;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
+  GLuint arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)":new_Window")) SWIG_fail;
-  result = (Window *)calloc(1, sizeof(Window));
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Window, SWIG_POINTER_NEW |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Font_list_base_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Font_list_base_set" "', argument " "1"" of type '" "ARC_Font *""'"); 
+  }
+  arg1 = (ARC_Font *)(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_GLuint,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_Font_list_base_set" "', argument " "2"" of type '" "GLuint""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ARC_Font_list_base_set" "', argument " "2"" of type '" "GLuint""'");
+    } else {
+      arg2 = *((GLuint *)(argp2));
+    }
+  }
+  if (arg1) (arg1)->list_base = arg2;
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_delete_Window(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ARC_Font_list_base_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  GLuint result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Font_list_base_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Font_list_base_get" "', argument " "1"" of type '" "ARC_Font *""'"); 
+  }
+  arg1 = (ARC_Font *)(argp1);
+  result =  ((arg1)->list_base);
+  resultobj = SWIG_NewPointerObj((GLuint *)memcpy((GLuint *)malloc(sizeof(GLuint)),&result,sizeof(GLuint)), SWIGTYPE_p_GLuint, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ARC_Font(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Font *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_ARC_Font")) SWIG_fail;
+  result = (ARC_Font *)calloc(1, sizeof(ARC_Font));
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ARC_Font, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_ARC_Font(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_Window",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, SWIG_POINTER_DISOWN |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_ARC_Font",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Window" "', argument " "1"" of type '" "Window *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ARC_Font" "', argument " "1"" of type '" "ARC_Font *""'"); 
   }
-  arg1 = (Window *)(argp1);
+  arg1 = (ARC_Font *)(argp1);
   free((char *) arg1);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -3197,336 +3098,141 @@ fail:
 }
 
 
-SWIGINTERN PyObject *Window_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *ARC_Font_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_Window, SWIG_NewClientData(obj));
+  SWIG_TypeNewClientData(SWIGTYPE_p_ARC_Font, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_ARC_OpenWindow(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ARC_FontInit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
   char *arg2 = (char *) 0 ;
-  int arg3 ;
-  int arg4 ;
-  int arg5 ;
-  int arg6 ;
+  unsigned int arg3 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
-  int val3 ;
+  unsigned int val3 ;
   int ecode3 = 0 ;
-  int val4 ;
-  int ecode4 = 0 ;
-  int val5 ;
-  int ecode5 = 0 ;
-  int val6 ;
-  int ecode6 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:ARC_FontInit",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_FontInit" "', argument " "1"" of type '" "ARC_Font *""'"); 
+  }
+  arg1 = (ARC_Font *)(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_FontInit" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_unsigned_SS_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ARC_FontInit" "', argument " "3"" of type '" "unsigned int""'");
+  } 
+  arg3 = (unsigned int)(val3);
+  result = (int)ARC_FontInit(arg1,arg2,arg3);
+  resultobj = SWIG_From_int((int)(result));
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_FontQuit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_FontQuit",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_FontQuit" "', argument " "1"" of type '" "ARC_Font *""'"); 
+  }
+  arg1 = (ARC_Font *)(argp1);
+  result = (int)ARC_FontQuit(arg1);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_FontRender__varargs__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *varargs) {
+  PyObject *resultobj = 0;
+  ARC_Font *arg1 = (ARC_Font *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  char *arg4 = (char *) 0 ;
+  void *arg5 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
-  PyObject * obj4 = 0 ;
-  PyObject * obj5 = 0 ;
-  int result;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:ARC_OpenWindow",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:ARC_FontRender",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Font, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_OpenWindow" "', argument " "1"" of type '" "Window *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_FontRender" "', argument " "1"" of type '" "ARC_Font *""'"); 
   }
-  arg1 = (Window *)(argp1);
-  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_OpenWindow" "', argument " "2"" of type '" "char *""'");
-  }
-  arg2 = (char *)(buf2);
-  ecode3 = SWIG_AsVal_int(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ARC_OpenWindow" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = (int)(val3);
-  ecode4 = SWIG_AsVal_int(obj3, &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "ARC_OpenWindow" "', argument " "4"" of type '" "int""'");
-  } 
-  arg4 = (int)(val4);
-  ecode5 = SWIG_AsVal_int(obj4, &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "ARC_OpenWindow" "', argument " "5"" of type '" "int""'");
-  } 
-  arg5 = (int)(val5);
-  ecode6 = SWIG_AsVal_int(obj5, &val6);
-  if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "ARC_OpenWindow" "', argument " "6"" of type '" "int""'");
-  } 
-  arg6 = (int)(val6);
-  result = (int)ARC_OpenWindow(arg1,arg2,arg3,arg4,arg5,arg6);
-  resultobj = SWIG_From_int((int)(result));
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return resultobj;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_ARC_Resize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  int arg2 ;
-  int arg3 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:ARC_Resize",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Resize" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  arg1 = (ARC_Font *)(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Resize" "', argument " "2"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_FontRender" "', argument " "2"" of type '" "float""'");
   } 
-  arg2 = (int)(val2);
-  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  arg2 = (float)(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
   if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ARC_Resize" "', argument " "3"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ARC_FontRender" "', argument " "3"" of type '" "float""'");
   } 
-  arg3 = (int)(val3);
-  result = (int)ARC_Resize(arg1,arg2,arg3);
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_ARC_Quit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)":ARC_Quit")) SWIG_fail;
-  result = (int)ARC_Quit();
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_ARC_ToggleFullScreen(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:ARC_ToggleFullScreen",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_ToggleFullScreen" "', argument " "1"" of type '" "Window *""'"); 
+  arg3 = (float)(val3);
+  res4 = SWIG_AsCharPtrAndSize(obj3, &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "ARC_FontRender" "', argument " "4"" of type '" "char const *""'");
   }
-  arg1 = (Window *)(argp1);
-  result = (int)ARC_ToggleFullScreen(arg1);
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_ARC_SaveBMP(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  char *arg2 = (char *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_SaveBMP",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_SaveBMP" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_SaveBMP" "', argument " "2"" of type '" "char *""'");
-  }
-  arg2 = (char *)(buf2);
-  result = (int)ARC_SaveBMP(arg1,arg2);
-  resultobj = SWIG_From_int((int)(result));
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return resultobj;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_ARC_Clear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  int result;
-  
-  if (!PyArg_ParseTuple(args,(char *)":ARC_Clear")) SWIG_fail;
-  result = (int)ARC_Clear();
-  resultobj = SWIG_From_int((int)(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_initLog(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  
-  if (!PyArg_ParseTuple(args,(char *)":initLog")) SWIG_fail;
-  initLog();
+  arg4 = (char *)(buf4);
+  ARC_FontRender(arg1,arg2,arg3,(char const *)arg4,arg5);
   resultobj = SWIG_Py_Void();
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
   return resultobj;
 fail:
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_initSDL(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  int result;
+SWIGINTERN PyObject *_wrap_ARC_FontRender(PyObject *self, PyObject *args) {
+  PyObject *resultobj;
+  PyObject *varargs;
+  PyObject *newargs;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:initSDL",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "initSDL" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  result = (int)initSDL(arg1);
-  resultobj = SWIG_From_int((int)(result));
+  newargs = PyTuple_GetSlice(args,0,4);
+  varargs = PyTuple_GetSlice(args,4,PyTuple_Size(args)+1);
+  resultobj = _wrap_ARC_FontRender__varargs__(self,newargs,varargs);
+  Py_XDECREF(newargs);
+  Py_XDECREF(varargs);
   return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_buildVideoFlags(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  Uint32 result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:buildVideoFlags",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "buildVideoFlags" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  result = buildVideoFlags(arg1);
-  resultobj = SWIG_NewPointerObj((Uint32 *)memcpy((Uint32 *)malloc(sizeof(Uint32)),&result,sizeof(Uint32)), SWIGTYPE_p_Uint32, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_setupPixelDepth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:setupPixelDepth",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setupPixelDepth" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  setupPixelDepth(arg1);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_setupPixelFormat(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  
-  if (!PyArg_ParseTuple(args,(char *)":setupPixelFormat")) SWIG_fail;
-  setupPixelFormat();
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_printVendor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  
-  if (!PyArg_ParseTuple(args,(char *)":printVendor")) SWIG_fail;
-  printVendor();
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_resizeGL(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Window *arg1 = (Window *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:resizeGL",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Window, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "resizeGL" "', argument " "1"" of type '" "Window *""'"); 
-  }
-  arg1 = (Window *)(argp1);
-  resizeGL(arg1);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_setGLStates(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  
-  if (!PyArg_ParseTuple(args,(char *)":setGLStates")) SWIG_fail;
-  setGLStates();
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
 }
 
 
@@ -3578,69 +3284,1177 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_ARC_Time_currTime_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Time_currTime_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_currTime_set" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Time_currTime_set" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = (unsigned int)(val2);
+  if (arg1) (arg1)->currTime = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_currTime_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Time_currTime_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_currTime_get" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (unsigned int) ((arg1)->currTime);
+  resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_prevTime_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Time_prevTime_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_prevTime_set" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Time_prevTime_set" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = (unsigned int)(val2);
+  if (arg1) (arg1)->prevTime = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_prevTime_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Time_prevTime_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_prevTime_get" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (unsigned int) ((arg1)->prevTime);
+  resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_fps_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Time_fps_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_fps_set" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Time_fps_set" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = (unsigned int)(val2);
+  if (arg1) (arg1)->fps = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_fps_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Time_fps_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_fps_get" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (unsigned int) ((arg1)->fps);
+  resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_frames_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Time_frames_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_frames_set" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Time_frames_set" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = (unsigned int)(val2);
+  if (arg1) (arg1)->frames = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_frames_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Time_frames_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_frames_get" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (unsigned int) ((arg1)->frames);
+  resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_msPassed_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Time_msPassed_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_msPassed_set" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Time_msPassed_set" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = (unsigned int)(val2);
+  if (arg1) (arg1)->msPassed = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Time_msPassed_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Time_msPassed_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Time_msPassed_get" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (unsigned int) ((arg1)->msPassed);
+  resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ARC_Time(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_ARC_Time")) SWIG_fail;
+  result = (ARC_Time *)calloc(1, sizeof(ARC_Time));
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ARC_Time, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_ARC_Time(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_ARC_Time",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ARC_Time" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  free((char *) arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *ARC_Time_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_ARC_Time, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_ARC_TimeProcess(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_TimeProcess",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_TimeProcess" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  ARC_TimeProcess(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_TimeSleep(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  unsigned int arg1 ;
+  unsigned int val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_TimeSleep",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_unsigned_SS_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "ARC_TimeSleep" "', argument " "1"" of type '" "unsigned int""'");
+  } 
+  arg1 = (unsigned int)(val1);
+  ARC_TimeSleep(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Arc_TimeGetElapsed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Arc_TimeGetElapsed",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Arc_TimeGetElapsed" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (unsigned int)Arc_TimeGetElapsed(arg1);
+  resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_TimeGetElapsedSec(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_TimeGetElapsedSec",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_TimeGetElapsedSec" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (double)ARC_TimeGetElapsedSec(arg1);
+  resultobj = SWIG_From_double((double)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_TimeGetFPS(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_TimeGetFPS",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_TimeGetFPS" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  result = (unsigned int)ARC_TimeGetFPS(arg1);
+  resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_TimeLimitFPS(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Time *arg1 = (ARC_Time *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_TimeLimitFPS",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Time, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_TimeLimitFPS" "', argument " "1"" of type '" "ARC_Time *""'"); 
+  }
+  arg1 = (ARC_Time *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_TimeLimitFPS" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  ARC_TimeLimitFPS(arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN int Swig_var_windowLog_set(PyObject *_val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_log4c_category_t,  0 );  
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""windowLog""' of type '""log4c_category_t *""'");
+    }
+    windowLog = (log4c_category_t *)(argp);
+  }
+  return 0;
+fail:
+  return 1;
+}
+
+
+SWIGINTERN PyObject *Swig_var_windowLog_get(void) {
+  PyObject *pyobj = 0;
+  
+  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(windowLog), SWIGTYPE_p_log4c_category_t,  0 );
+  return pyobj;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_title_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Window_title_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_title_set" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_Window_title_set" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = (char *)(buf2);
+  if (arg1->title) free((char*)arg1->title);
+  if (arg2) {
+    size_t size = strlen((const char *)(arg2)) + 1;
+    arg1->title = (char *)(char *)memcpy((char *)malloc((size)*sizeof(char)), (const char *)(arg2), sizeof(char)*(size));
+  } else {
+    arg1->title = 0;
+  }
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_title_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  char *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Window_title_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_title_get" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (char *) ((arg1)->title);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_width_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Window_width_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_width_set" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Window_width_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  if (arg1) (arg1)->width = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_width_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Window_width_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_width_get" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (int) ((arg1)->width);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_height_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Window_height_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_height_set" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Window_height_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  if (arg1) (arg1)->height = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_height_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Window_height_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_height_get" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (int) ((arg1)->height);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_isFullscreen_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Window_isFullscreen_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_isFullscreen_set" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Window_isFullscreen_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  if (arg1) (arg1)->isFullscreen = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_isFullscreen_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Window_isFullscreen_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_isFullscreen_get" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (int) ((arg1)->isFullscreen);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_isResizable_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Window_isResizable_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_isResizable_set" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Window_isResizable_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  if (arg1) (arg1)->isResizable = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_isResizable_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Window_isResizable_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_isResizable_get" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (int) ((arg1)->isResizable);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_bpp_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Window_bpp_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_bpp_set" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_Window_bpp_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  if (arg1) (arg1)->bpp = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_bpp_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Window_bpp_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_bpp_get" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (int) ((arg1)->bpp);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_screen_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  SDL_Surface *arg2 = (SDL_Surface *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_Window_screen_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_screen_set" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_SDL_Surface, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_Window_screen_set" "', argument " "2"" of type '" "SDL_Surface *""'"); 
+  }
+  arg2 = (SDL_Surface *)(argp2);
+  if (arg1) (arg1)->screen = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_Window_screen_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  SDL_Surface *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_Window_screen_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_Window_screen_get" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (SDL_Surface *) ((arg1)->screen);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_SDL_Surface, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ARC_Window(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_ARC_Window")) SWIG_fail;
+  result = (ARC_Window *)calloc(1, sizeof(ARC_Window));
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ARC_Window, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_ARC_Window(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_ARC_Window",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ARC_Window" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  free((char *) arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *ARC_Window_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_ARC_Window, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_ARC_WindowInt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int arg3 ;
+  int arg4 ;
+  int arg5 ;
+  int arg6 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  int val5 ;
+  int ecode5 = 0 ;
+  int val6 ;
+  int ecode6 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:ARC_WindowInt",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_WindowInt" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_WindowInt" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ARC_WindowInt" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  ecode4 = SWIG_AsVal_int(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "ARC_WindowInt" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = (int)(val4);
+  ecode5 = SWIG_AsVal_int(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "ARC_WindowInt" "', argument " "5"" of type '" "int""'");
+  } 
+  arg5 = (int)(val5);
+  ecode6 = SWIG_AsVal_int(obj5, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "ARC_WindowInt" "', argument " "6"" of type '" "int""'");
+  } 
+  arg6 = (int)(val6);
+  result = (int)ARC_WindowInt(arg1,arg2,arg3,arg4,arg5,arg6);
+  resultobj = SWIG_From_int((int)(result));
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_WindowResize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:ARC_WindowResize",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_WindowResize" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ARC_WindowResize" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ARC_WindowResize" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  result = (int)ARC_WindowResize(arg1,arg2,arg3);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_WindowQuit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_WindowQuit",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_WindowQuit" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (int)ARC_WindowQuit(arg1);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_WindowToggleFullScreen(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ARC_WindowToggleFullScreen",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_WindowToggleFullScreen" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  result = (int)ARC_WindowToggleFullScreen(arg1);
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_WindowSaveBMP(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  ARC_Window *arg1 = (ARC_Window *) 0 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ARC_WindowSaveBMP",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_ARC_Window, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ARC_WindowSaveBMP" "', argument " "1"" of type '" "ARC_Window *""'"); 
+  }
+  arg1 = (ARC_Window *)(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ARC_WindowSaveBMP" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = (char *)(buf2);
+  result = (int)ARC_WindowSaveBMP(arg1,arg2);
+  resultobj = SWIG_From_int((int)(result));
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ARC_WindowClear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":ARC_WindowClear")) SWIG_fail;
+  result = (int)ARC_WindowClear();
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
-	 { (char *)"Window_title_set", _wrap_Window_title_set, METH_VARARGS, NULL},
-	 { (char *)"Window_title_get", _wrap_Window_title_get, METH_VARARGS, NULL},
-	 { (char *)"Window_width_set", _wrap_Window_width_set, METH_VARARGS, NULL},
-	 { (char *)"Window_width_get", _wrap_Window_width_get, METH_VARARGS, NULL},
-	 { (char *)"Window_height_set", _wrap_Window_height_set, METH_VARARGS, NULL},
-	 { (char *)"Window_height_get", _wrap_Window_height_get, METH_VARARGS, NULL},
-	 { (char *)"Window_isFullscreen_set", _wrap_Window_isFullscreen_set, METH_VARARGS, NULL},
-	 { (char *)"Window_isFullscreen_get", _wrap_Window_isFullscreen_get, METH_VARARGS, NULL},
-	 { (char *)"Window_isResizable_set", _wrap_Window_isResizable_set, METH_VARARGS, NULL},
-	 { (char *)"Window_isResizable_get", _wrap_Window_isResizable_get, METH_VARARGS, NULL},
-	 { (char *)"Window_bpp_set", _wrap_Window_bpp_set, METH_VARARGS, NULL},
-	 { (char *)"Window_bpp_get", _wrap_Window_bpp_get, METH_VARARGS, NULL},
-	 { (char *)"Window_screen_set", _wrap_Window_screen_set, METH_VARARGS, NULL},
-	 { (char *)"Window_screen_get", _wrap_Window_screen_get, METH_VARARGS, NULL},
-	 { (char *)"new_Window", _wrap_new_Window, METH_VARARGS, NULL},
-	 { (char *)"delete_Window", _wrap_delete_Window, METH_VARARGS, NULL},
-	 { (char *)"Window_swigregister", Window_swigregister, METH_VARARGS, NULL},
-	 { (char *)"ARC_OpenWindow", _wrap_ARC_OpenWindow, METH_VARARGS, NULL},
-	 { (char *)"ARC_Resize", _wrap_ARC_Resize, METH_VARARGS, NULL},
-	 { (char *)"ARC_Quit", _wrap_ARC_Quit, METH_VARARGS, NULL},
-	 { (char *)"ARC_ToggleFullScreen", _wrap_ARC_ToggleFullScreen, METH_VARARGS, NULL},
-	 { (char *)"ARC_SaveBMP", _wrap_ARC_SaveBMP, METH_VARARGS, NULL},
-	 { (char *)"ARC_Clear", _wrap_ARC_Clear, METH_VARARGS, NULL},
-	 { (char *)"initLog", _wrap_initLog, METH_VARARGS, NULL},
-	 { (char *)"initSDL", _wrap_initSDL, METH_VARARGS, NULL},
-	 { (char *)"buildVideoFlags", _wrap_buildVideoFlags, METH_VARARGS, NULL},
-	 { (char *)"setupPixelDepth", _wrap_setupPixelDepth, METH_VARARGS, NULL},
-	 { (char *)"setupPixelFormat", _wrap_setupPixelFormat, METH_VARARGS, NULL},
-	 { (char *)"printVendor", _wrap_printVendor, METH_VARARGS, NULL},
-	 { (char *)"resizeGL", _wrap_resizeGL, METH_VARARGS, NULL},
-	 { (char *)"setGLStates", _wrap_setGLStates, METH_VARARGS, NULL},
+	 { (char *)"ARC_Font_height_set", _wrap_ARC_Font_height_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Font_height_get", _wrap_ARC_Font_height_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Font_textures_set", _wrap_ARC_Font_textures_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Font_textures_get", _wrap_ARC_Font_textures_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Font_list_base_set", _wrap_ARC_Font_list_base_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Font_list_base_get", _wrap_ARC_Font_list_base_get, METH_VARARGS, NULL},
+	 { (char *)"new_ARC_Font", _wrap_new_ARC_Font, METH_VARARGS, NULL},
+	 { (char *)"delete_ARC_Font", _wrap_delete_ARC_Font, METH_VARARGS, NULL},
+	 { (char *)"ARC_Font_swigregister", ARC_Font_swigregister, METH_VARARGS, NULL},
+	 { (char *)"ARC_FontInit", _wrap_ARC_FontInit, METH_VARARGS, NULL},
+	 { (char *)"ARC_FontQuit", _wrap_ARC_FontQuit, METH_VARARGS, NULL},
+	 { (char *)"ARC_FontRender", _wrap_ARC_FontRender, METH_VARARGS, NULL},
 	 { (char *)"ARC_InitLogger", _wrap_ARC_InitLogger, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_currTime_set", _wrap_ARC_Time_currTime_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_currTime_get", _wrap_ARC_Time_currTime_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_prevTime_set", _wrap_ARC_Time_prevTime_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_prevTime_get", _wrap_ARC_Time_prevTime_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_fps_set", _wrap_ARC_Time_fps_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_fps_get", _wrap_ARC_Time_fps_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_frames_set", _wrap_ARC_Time_frames_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_frames_get", _wrap_ARC_Time_frames_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_msPassed_set", _wrap_ARC_Time_msPassed_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_msPassed_get", _wrap_ARC_Time_msPassed_get, METH_VARARGS, NULL},
+	 { (char *)"new_ARC_Time", _wrap_new_ARC_Time, METH_VARARGS, NULL},
+	 { (char *)"delete_ARC_Time", _wrap_delete_ARC_Time, METH_VARARGS, NULL},
+	 { (char *)"ARC_Time_swigregister", ARC_Time_swigregister, METH_VARARGS, NULL},
+	 { (char *)"ARC_TimeProcess", _wrap_ARC_TimeProcess, METH_VARARGS, NULL},
+	 { (char *)"ARC_TimeSleep", _wrap_ARC_TimeSleep, METH_VARARGS, NULL},
+	 { (char *)"Arc_TimeGetElapsed", _wrap_Arc_TimeGetElapsed, METH_VARARGS, NULL},
+	 { (char *)"ARC_TimeGetElapsedSec", _wrap_ARC_TimeGetElapsedSec, METH_VARARGS, NULL},
+	 { (char *)"ARC_TimeGetFPS", _wrap_ARC_TimeGetFPS, METH_VARARGS, NULL},
+	 { (char *)"ARC_TimeLimitFPS", _wrap_ARC_TimeLimitFPS, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_title_set", _wrap_ARC_Window_title_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_title_get", _wrap_ARC_Window_title_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_width_set", _wrap_ARC_Window_width_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_width_get", _wrap_ARC_Window_width_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_height_set", _wrap_ARC_Window_height_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_height_get", _wrap_ARC_Window_height_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_isFullscreen_set", _wrap_ARC_Window_isFullscreen_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_isFullscreen_get", _wrap_ARC_Window_isFullscreen_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_isResizable_set", _wrap_ARC_Window_isResizable_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_isResizable_get", _wrap_ARC_Window_isResizable_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_bpp_set", _wrap_ARC_Window_bpp_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_bpp_get", _wrap_ARC_Window_bpp_get, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_screen_set", _wrap_ARC_Window_screen_set, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_screen_get", _wrap_ARC_Window_screen_get, METH_VARARGS, NULL},
+	 { (char *)"new_ARC_Window", _wrap_new_ARC_Window, METH_VARARGS, NULL},
+	 { (char *)"delete_ARC_Window", _wrap_delete_ARC_Window, METH_VARARGS, NULL},
+	 { (char *)"ARC_Window_swigregister", ARC_Window_swigregister, METH_VARARGS, NULL},
+	 { (char *)"ARC_WindowInt", _wrap_ARC_WindowInt, METH_VARARGS, NULL},
+	 { (char *)"ARC_WindowResize", _wrap_ARC_WindowResize, METH_VARARGS, NULL},
+	 { (char *)"ARC_WindowQuit", _wrap_ARC_WindowQuit, METH_VARARGS, NULL},
+	 { (char *)"ARC_WindowToggleFullScreen", _wrap_ARC_WindowToggleFullScreen, METH_VARARGS, NULL},
+	 { (char *)"ARC_WindowSaveBMP", _wrap_ARC_WindowSaveBMP, METH_VARARGS, NULL},
+	 { (char *)"ARC_WindowClear", _wrap_ARC_WindowClear, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static swig_type_info _swigt__p_ARC_Font = {"_p_ARC_Font", "struct ARC_Font *|ARC_Font *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ARC_Time = {"_p_ARC_Time", "struct ARC_Time *|ARC_Time *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ARC_Window = {"_p_ARC_Window", "struct ARC_Window *|ARC_Window *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_GLuint = {"_p_GLuint", "GLuint *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SDL_Surface = {"_p_SDL_Surface", "SDL_Surface *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Uint32 = {"_p_Uint32", "Uint32 *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_Window = {"_p_Window", "struct Window *|Window *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_log4c_category_t = {"_p_log4c_category_t", "log4c_category_t *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_ARC_Font,
+  &_swigt__p_ARC_Time,
+  &_swigt__p_ARC_Window,
+  &_swigt__p_GLuint,
   &_swigt__p_SDL_Surface,
-  &_swigt__p_Uint32,
-  &_swigt__p_Window,
   &_swigt__p_char,
   &_swigt__p_log4c_category_t,
 };
 
+static swig_cast_info _swigc__p_ARC_Font[] = {  {&_swigt__p_ARC_Font, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ARC_Time[] = {  {&_swigt__p_ARC_Time, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ARC_Window[] = {  {&_swigt__p_ARC_Window, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_GLuint[] = {  {&_swigt__p_GLuint, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SDL_Surface[] = {  {&_swigt__p_SDL_Surface, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Uint32[] = {  {&_swigt__p_Uint32, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Window[] = {  {&_swigt__p_Window, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_log4c_category_t[] = {  {&_swigt__p_log4c_category_t, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_ARC_Font,
+  _swigc__p_ARC_Time,
+  _swigc__p_ARC_Window,
+  _swigc__p_GLuint,
   _swigc__p_SDL_Surface,
-  _swigc__p_Uint32,
-  _swigc__p_Window,
   _swigc__p_char,
   _swigc__p_log4c_category_t,
 };
@@ -4173,7 +4987,8 @@ SWIGEXPORT void SWIG_init(void) {
   
   
   PyDict_SetItemString(d,(char*)"cvar", SWIG_globals());
-  SWIG_addvarlink(SWIG_globals(),(char*)"windowLog",Swig_var_windowLog_get, Swig_var_windowLog_set);
+  SWIG_addvarlink(SWIG_globals(),(char*)"fontLog",Swig_var_fontLog_get, Swig_var_fontLog_set);
   SWIG_addvarlink(SWIG_globals(),(char*)"rootLog",Swig_var_rootLog_get, Swig_var_rootLog_set);
+  SWIG_addvarlink(SWIG_globals(),(char*)"windowLog",Swig_var_windowLog_get, Swig_var_windowLog_set);
 }
 

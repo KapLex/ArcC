@@ -48,57 +48,112 @@ except AttributeError:
 del types
 
 
-class Window(_object):
+class ARC_Font(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Window, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ARC_Font, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, Window, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, ARC_Font, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["title"] = _ArcC.Window_title_set
-    __swig_getmethods__["title"] = _ArcC.Window_title_get
-    if _newclass:title = _swig_property(_ArcC.Window_title_get, _ArcC.Window_title_set)
-    __swig_setmethods__["width"] = _ArcC.Window_width_set
-    __swig_getmethods__["width"] = _ArcC.Window_width_get
-    if _newclass:width = _swig_property(_ArcC.Window_width_get, _ArcC.Window_width_set)
-    __swig_setmethods__["height"] = _ArcC.Window_height_set
-    __swig_getmethods__["height"] = _ArcC.Window_height_get
-    if _newclass:height = _swig_property(_ArcC.Window_height_get, _ArcC.Window_height_set)
-    __swig_setmethods__["isFullscreen"] = _ArcC.Window_isFullscreen_set
-    __swig_getmethods__["isFullscreen"] = _ArcC.Window_isFullscreen_get
-    if _newclass:isFullscreen = _swig_property(_ArcC.Window_isFullscreen_get, _ArcC.Window_isFullscreen_set)
-    __swig_setmethods__["isResizable"] = _ArcC.Window_isResizable_set
-    __swig_getmethods__["isResizable"] = _ArcC.Window_isResizable_get
-    if _newclass:isResizable = _swig_property(_ArcC.Window_isResizable_get, _ArcC.Window_isResizable_set)
-    __swig_setmethods__["bpp"] = _ArcC.Window_bpp_set
-    __swig_getmethods__["bpp"] = _ArcC.Window_bpp_get
-    if _newclass:bpp = _swig_property(_ArcC.Window_bpp_get, _ArcC.Window_bpp_set)
-    __swig_setmethods__["screen"] = _ArcC.Window_screen_set
-    __swig_getmethods__["screen"] = _ArcC.Window_screen_get
-    if _newclass:screen = _swig_property(_ArcC.Window_screen_get, _ArcC.Window_screen_set)
+    __swig_setmethods__["height"] = _ArcC.ARC_Font_height_set
+    __swig_getmethods__["height"] = _ArcC.ARC_Font_height_get
+    if _newclass:height = _swig_property(_ArcC.ARC_Font_height_get, _ArcC.ARC_Font_height_set)
+    __swig_setmethods__["textures"] = _ArcC.ARC_Font_textures_set
+    __swig_getmethods__["textures"] = _ArcC.ARC_Font_textures_get
+    if _newclass:textures = _swig_property(_ArcC.ARC_Font_textures_get, _ArcC.ARC_Font_textures_set)
+    __swig_setmethods__["list_base"] = _ArcC.ARC_Font_list_base_set
+    __swig_getmethods__["list_base"] = _ArcC.ARC_Font_list_base_get
+    if _newclass:list_base = _swig_property(_ArcC.ARC_Font_list_base_get, _ArcC.ARC_Font_list_base_set)
     def __init__(self, *args): 
-        this = _ArcC.new_Window(*args)
+        this = _ArcC.new_ARC_Font(*args)
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _ArcC.delete_Window
+    __swig_destroy__ = _ArcC.delete_ARC_Font
     __del__ = lambda self : None;
-Window_swigregister = _ArcC.Window_swigregister
-Window_swigregister(Window)
+ARC_Font_swigregister = _ArcC.ARC_Font_swigregister
+ARC_Font_swigregister(ARC_Font)
 cvar = _ArcC.cvar
 
-ARC_OpenWindow = _ArcC.ARC_OpenWindow
-ARC_Resize = _ArcC.ARC_Resize
-ARC_Quit = _ArcC.ARC_Quit
-ARC_ToggleFullScreen = _ArcC.ARC_ToggleFullScreen
-ARC_SaveBMP = _ArcC.ARC_SaveBMP
-ARC_Clear = _ArcC.ARC_Clear
-initLog = _ArcC.initLog
-initSDL = _ArcC.initSDL
-buildVideoFlags = _ArcC.buildVideoFlags
-setupPixelDepth = _ArcC.setupPixelDepth
-setupPixelFormat = _ArcC.setupPixelFormat
-printVendor = _ArcC.printVendor
-resizeGL = _ArcC.resizeGL
-setGLStates = _ArcC.setGLStates
+ARC_FontInit = _ArcC.ARC_FontInit
+ARC_FontQuit = _ArcC.ARC_FontQuit
+ARC_FontRender = _ArcC.ARC_FontRender
 ARC_InitLogger = _ArcC.ARC_InitLogger
+class ARC_Time(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ARC_Time, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ARC_Time, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["currTime"] = _ArcC.ARC_Time_currTime_set
+    __swig_getmethods__["currTime"] = _ArcC.ARC_Time_currTime_get
+    if _newclass:currTime = _swig_property(_ArcC.ARC_Time_currTime_get, _ArcC.ARC_Time_currTime_set)
+    __swig_setmethods__["prevTime"] = _ArcC.ARC_Time_prevTime_set
+    __swig_getmethods__["prevTime"] = _ArcC.ARC_Time_prevTime_get
+    if _newclass:prevTime = _swig_property(_ArcC.ARC_Time_prevTime_get, _ArcC.ARC_Time_prevTime_set)
+    __swig_setmethods__["fps"] = _ArcC.ARC_Time_fps_set
+    __swig_getmethods__["fps"] = _ArcC.ARC_Time_fps_get
+    if _newclass:fps = _swig_property(_ArcC.ARC_Time_fps_get, _ArcC.ARC_Time_fps_set)
+    __swig_setmethods__["frames"] = _ArcC.ARC_Time_frames_set
+    __swig_getmethods__["frames"] = _ArcC.ARC_Time_frames_get
+    if _newclass:frames = _swig_property(_ArcC.ARC_Time_frames_get, _ArcC.ARC_Time_frames_set)
+    __swig_setmethods__["msPassed"] = _ArcC.ARC_Time_msPassed_set
+    __swig_getmethods__["msPassed"] = _ArcC.ARC_Time_msPassed_get
+    if _newclass:msPassed = _swig_property(_ArcC.ARC_Time_msPassed_get, _ArcC.ARC_Time_msPassed_set)
+    def __init__(self, *args): 
+        this = _ArcC.new_ARC_Time(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ArcC.delete_ARC_Time
+    __del__ = lambda self : None;
+ARC_Time_swigregister = _ArcC.ARC_Time_swigregister
+ARC_Time_swigregister(ARC_Time)
+
+ARC_TimeProcess = _ArcC.ARC_TimeProcess
+ARC_TimeSleep = _ArcC.ARC_TimeSleep
+Arc_TimeGetElapsed = _ArcC.Arc_TimeGetElapsed
+ARC_TimeGetElapsedSec = _ArcC.ARC_TimeGetElapsedSec
+ARC_TimeGetFPS = _ArcC.ARC_TimeGetFPS
+ARC_TimeLimitFPS = _ArcC.ARC_TimeLimitFPS
+class ARC_Window(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ARC_Window, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ARC_Window, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["title"] = _ArcC.ARC_Window_title_set
+    __swig_getmethods__["title"] = _ArcC.ARC_Window_title_get
+    if _newclass:title = _swig_property(_ArcC.ARC_Window_title_get, _ArcC.ARC_Window_title_set)
+    __swig_setmethods__["width"] = _ArcC.ARC_Window_width_set
+    __swig_getmethods__["width"] = _ArcC.ARC_Window_width_get
+    if _newclass:width = _swig_property(_ArcC.ARC_Window_width_get, _ArcC.ARC_Window_width_set)
+    __swig_setmethods__["height"] = _ArcC.ARC_Window_height_set
+    __swig_getmethods__["height"] = _ArcC.ARC_Window_height_get
+    if _newclass:height = _swig_property(_ArcC.ARC_Window_height_get, _ArcC.ARC_Window_height_set)
+    __swig_setmethods__["isFullscreen"] = _ArcC.ARC_Window_isFullscreen_set
+    __swig_getmethods__["isFullscreen"] = _ArcC.ARC_Window_isFullscreen_get
+    if _newclass:isFullscreen = _swig_property(_ArcC.ARC_Window_isFullscreen_get, _ArcC.ARC_Window_isFullscreen_set)
+    __swig_setmethods__["isResizable"] = _ArcC.ARC_Window_isResizable_set
+    __swig_getmethods__["isResizable"] = _ArcC.ARC_Window_isResizable_get
+    if _newclass:isResizable = _swig_property(_ArcC.ARC_Window_isResizable_get, _ArcC.ARC_Window_isResizable_set)
+    __swig_setmethods__["bpp"] = _ArcC.ARC_Window_bpp_set
+    __swig_getmethods__["bpp"] = _ArcC.ARC_Window_bpp_get
+    if _newclass:bpp = _swig_property(_ArcC.ARC_Window_bpp_get, _ArcC.ARC_Window_bpp_set)
+    __swig_setmethods__["screen"] = _ArcC.ARC_Window_screen_set
+    __swig_getmethods__["screen"] = _ArcC.ARC_Window_screen_get
+    if _newclass:screen = _swig_property(_ArcC.ARC_Window_screen_get, _ArcC.ARC_Window_screen_set)
+    def __init__(self, *args): 
+        this = _ArcC.new_ARC_Window(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ArcC.delete_ARC_Window
+    __del__ = lambda self : None;
+ARC_Window_swigregister = _ArcC.ARC_Window_swigregister
+ARC_Window_swigregister(ARC_Window)
+
+ARC_WindowInt = _ArcC.ARC_WindowInt
+ARC_WindowResize = _ArcC.ARC_WindowResize
+ARC_WindowQuit = _ArcC.ARC_WindowQuit
+ARC_WindowToggleFullScreen = _ArcC.ARC_WindowToggleFullScreen
+ARC_WindowSaveBMP = _ArcC.ARC_WindowSaveBMP
+ARC_WindowClear = _ArcC.ARC_WindowClear
 
 

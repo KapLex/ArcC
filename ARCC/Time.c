@@ -49,7 +49,7 @@ unsigned int ARC_TimeGetFPS(ARC_Time *t)
 	return t->fps;
 }
 
-void ARC_LimitFPS(ARC_Time *t, int maxFps)
+void ARC_TimeLimitFPS(ARC_Time *t, int maxFps)
 {
 	if (maxFps <= 0) { return; }
 
