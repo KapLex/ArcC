@@ -1,0 +1,55 @@
+.TH "Window.h" 3 "9 Jan 2010" "Version 1.0" "ARC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Window.h \- 
+.PP
+Code handling a the creation, destruction, etc. of a Game \fBWindow\fP.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBWindow\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBARC_OpenWindow\fP (\fBWindow\fP *w, char *title, int width, int height, int isFS, int isR)"
+.br
+.ti -1c
+.RI "int \fBARC_Quit\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Code handling a the creation, destruction, etc. of a Game \fBWindow\fP. 
+
+
+.SH "Function Documentation"
+.PP 
+.SS "int ARC_OpenWindow (\fBWindow\fP * w, char * title, int width, int height, int isFS, int isR)"Open the window
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBWindow\fP\fP handle 
+.br
+\fI\fBWindow\fP\fP title 
+.br
+\fI\fBWindow\fP\fP height 
+.br
+\fIWhether\fP \fBWindow\fP is fullscreen or not 
+.br
+\fIWhether\fP \fBWindow\fP is resizable or not 
+.RE
+.PP
+
+.SS "int ARC_Quit ()"Close the game application 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for ARC from the source code.

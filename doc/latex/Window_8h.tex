@@ -1,0 +1,41 @@
+\hypertarget{Window_8h}{
+\section{Window.h File Reference}
+\label{Window_8h}\index{Window.h@{Window.h}}
+}
+
+
+Code handling a the creation, destruction, etc. of a Game \hyperlink{structWindow}{Window}.  
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structWindow}{Window}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{Window_8h_a3bece3677bb1dd8fa18ae0b17d9db49b}{ARC\_\-OpenWindow} (\hyperlink{structWindow}{Window} $\ast$w, char $\ast$title, int width, int height, int isFS, int isR)
+\item 
+int \hyperlink{Window_8h_ae2fa5db91e107e06813f5a444c56197d}{ARC\_\-Quit} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Code handling a the creation, destruction, etc. of a Game \hyperlink{structWindow}{Window}. 
+
+\subsection{Function Documentation}
+\hypertarget{Window_8h_a3bece3677bb1dd8fa18ae0b17d9db49b}{
+\index{Window.h@{Window.h}!ARC\_\-OpenWindow@{ARC\_\-OpenWindow}}
+\index{ARC\_\-OpenWindow@{ARC\_\-OpenWindow}!Window.h@{Window.h}}
+\subsubsection[{ARC\_\-OpenWindow}]{\setlength{\rightskip}{0pt plus 5cm}int ARC\_\-OpenWindow ({\bf Window} $\ast$ {\em w}, \/  char $\ast$ {\em title}, \/  int {\em width}, \/  int {\em height}, \/  int {\em isFS}, \/  int {\em isR})}}
+\label{Window_8h_a3bece3677bb1dd8fa18ae0b17d9db49b}
+Open the window
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em \hyperlink{structWindow}{Window}}]handle \item[{\em \hyperlink{structWindow}{Window}}]title \item[{\em \hyperlink{structWindow}{Window}}]height \item[{\em Whether}]\hyperlink{structWindow}{Window} is fullscreen or not \item[{\em Whether}]\hyperlink{structWindow}{Window} is resizable or not \end{DoxyParams}
+\hypertarget{Window_8h_ae2fa5db91e107e06813f5a444c56197d}{
+\index{Window.h@{Window.h}!ARC\_\-Quit@{ARC\_\-Quit}}
+\index{ARC\_\-Quit@{ARC\_\-Quit}!Window.h@{Window.h}}
+\subsubsection[{ARC\_\-Quit}]{\setlength{\rightskip}{0pt plus 5cm}int ARC\_\-Quit ()}}
+\label{Window_8h_ae2fa5db91e107e06813f5a444c56197d}
+Close the game application 
