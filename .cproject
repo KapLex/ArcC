@@ -37,7 +37,7 @@
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.1215726630" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug">
 <option defaultValue="true" id="gnu.c.link.so.debug.option.shared.1550838655" name="Shared (-shared)" superClass="gnu.c.link.so.debug.option.shared" valueType="boolean"/>
-<option id="gnu.c.link.option.libs.86535593" superClass="gnu.c.link.option.libs" valueType="libs">
+<option id="gnu.c.link.option.libs.86535593" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="SDL"/>
 <listOptionValue builtIn="false" value="GL"/>
 </option>
@@ -54,6 +54,9 @@
 </tool>
 </toolChain>
 </folderInfo>
+<sourceEntries>
+<entry excluding="pyArc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+</sourceEntries>
 </configuration>
 </storageModule>
 <storageModule moduleId="scannerConfiguration">
@@ -473,6 +476,7 @@
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 <storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cconfiguration>
 <cconfiguration id="cdt.managedbuild.config.gnu.so.release.770188129">
 <storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.so.release.770188129" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -521,6 +525,9 @@
 </tool>
 </toolChain>
 </folderInfo>
+<sourceEntries>
+<entry excluding="pyArc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+</sourceEntries>
 </configuration>
 </storageModule>
 <storageModule moduleId="scannerConfiguration">
@@ -940,6 +947,7 @@
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 <storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cconfiguration>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">

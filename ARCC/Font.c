@@ -10,7 +10,6 @@ inline int next_p2 ( int a )
 	return rval;
 }
 
-
 ///Create a display list coresponding to the give character.
 int make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base )
 {
@@ -144,11 +143,14 @@ int make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base )
 }
 
 
-int ARC_FontInit(ARC_Font *f,  char *fname, unsigned int height)
+int ARC_FontInit()
 {
 	fontLog = log4c_category_get("arc.font");
 	log4c_category_log(fontLog, LOG4C_PRIORITY_INFO, "ARC_FontInit()");
+}
 
+int ARC_FontLoad(ARC_Font *f,  char *fname, unsigned int height)
+{
 	//Allocate some memory to store the texture ids.
 	//textures = new GLuint[128];
 
@@ -159,7 +161,7 @@ int ARC_FontInit(ARC_Font *f,  char *fname, unsigned int height)
 	if (FT_Init_FreeType( &library ))
 	{
 		log4c_category_log(fontLog, LOG4C_PRIORITY_ERROR, "FT_Init_FreeType failed");
-		return EXIT_FAILURE;
+		return ARC_INIT_FAILED;
 	}
 
 	//The object in which Freetype holds information on a given
@@ -172,6 +174,7 @@ int ARC_FontInit(ARC_Font *f,  char *fname, unsigned int height)
 	if (FT_New_Face( library, fname, 0, &face ))
 	{
 		log4c_category_log(fontLog, LOG4C_PRIORITY_ERROR, "FT_New_Face failed (there is probably a problem with your font file)");
+		return ARC_FONT_FILE;
 		//throw std::runtime_error("FT_New_Face failed (there is probably a problem with your font file)");
 	}
 
@@ -199,7 +202,7 @@ int ARC_FontInit(ARC_Font *f,  char *fname, unsigned int height)
 	//Ditto for the library.
 	FT_Done_FreeType(library);
 
-	return EXIT_SUCCESS;
+	return ARC_SUCCESS;
 }
 
 /// A fairly straight forward function that pushes
@@ -223,7 +226,7 @@ int ARC_FontQuit(ARC_Font *f)
 	glDeleteTextures(128,f->textures);
 	//delete [] textures;
 
-	return EXIT_SUCCESS;
+	return ARC_SUCCESS;
 }
 
 /// Pops the projection matrix without changing the current

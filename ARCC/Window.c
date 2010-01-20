@@ -55,7 +55,8 @@ int initSDL(ARC_Window *w)
 	{
 		//log.fatal("Window: Failed to initialize SDL Video");
 		//throw new Exception("Window: Failed to initialize SDL Video");
-		return EXIT_FAILURE;
+		log4c_category_log(windowLog, "Failed to initialize SDL Video");
+		return ARC_WINDOW_VIDEO_INIT;
 	}
 
 	// set pixel depth and format
@@ -69,24 +70,23 @@ int initSDL(ARC_Window *w)
 	{
 		//log.fatal("Window: screen is null after SDL_SetVideoMode called");
 		//throw new Exception("Window: screen is null after SDL_SetVideoMode called");
-		return EXIT_FAILURE;
+		return ARC_SURFACE_IS_NULL;
 	}
 
 	// set window caption, for some mysterious reason title info is lost if we don't do toUtfz
 	SDL_WM_SetCaption(w->title, NULL);
 
-	return 0;
+	logVendor();
+
+	return ARC_SUCCESS;
 }
 
-void printVendor(void)
+void logVendor(void)
 {
-	/*
-	log.info("Render Type: OpenGL (Hardware)");
-	log.info( "Vendor     : " ~ fromStringz(glGetString( GL_VENDOR )) ~ "\n");
-	log.info( "Renderer   : " ~  fromStringz(glGetString( GL_RENDERER )) ~ "\n" );
-	log.info( "Version    : " ~  fromStringz(glGetString( GL_VERSION )) ~ "\n" );
-	log.info( "Extensions : " ~  fromStringz(glGetString( GL_EXTENSIONS )) ~ "\n" );
-	*/
+	log4c_category_log(windowLog, LOG4C_PRIORITY_INFO, glGetString( GL_VENDOR ));
+	log4c_category_log(windowLog, LOG4C_PRIORITY_INFO, glGetString( GL_RENDERER ));
+	log4c_category_log(windowLog, LOG4C_PRIORITY_INFO, glGetString( GL_VERSION ));
+	log4c_category_log(windowLog, LOG4C_PRIORITY_INFO, glGetString( GL_EXTENSIONS ));
 }
 
 void setGLStates(void)
@@ -99,11 +99,19 @@ void setGLStates(void)
 
 void resizeGL(ARC_Window *w)
 {
+	int originX = 0, originY = 0;
+
 	// viewport
 	glViewport(0,0, w->width, w->height);
 
-	// reset the matrices
-	//coordinates.setupGLMatrices();
+	// projection matrix
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(originX, originX + w->size.w, originY + w->size.h, originY, -1.0f, 1.0f);
+
+	// modelview matrix
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
 	// states
 	setGLStates();
@@ -111,24 +119,24 @@ void resizeGL(ARC_Window *w)
 
 
 // Open Window
-int ARC_WindowInit(ARC_Window *w, char *title, int width, int height, int isFS, int isR)
+int ARC_WindowInit(ARC_Window *w, char *title, Size size, int isFS, int isR)
 {
 	log4c_category_log(windowLog, LOG4C_PRIORITY_INFO, "ARC_WindowInit(...)");
 
 	// init variables
 	w->title = title;
-	w->width = width;
-	w->height = height;
+	w->size = size;
 	w->isFullscreen = isFS;
 	w->isResizable = isR;
 
 	initLog();
 
-	initSDL(w);
+	int initSuccess = initSDL(w);
+	if (!initSuccess) return initSuccess;
 
 	resizeGL(w);
 
-	return 0;
+	return ARC_SUCCESS;
 }
 
 // Exit the app
@@ -137,45 +145,43 @@ int ARC_WindowQuit(ARC_Window *w)
 	SDL_FreeSurface(w->screen);
 	SDL_Quit();
 	log4c_fini();
-	return 0;
+	return ARC_SUCCESS;
 }
 
 //	Resize window to desired width and height
-int ARC_WindowResize(ARC_Window *wnd, int argWidth, int argHeight)
+int ARC_WindowResize(ARC_Window *wnd, Size size)
 {
-	wnd->width = argWidth;
-	wnd->height = argHeight;
+	wnd->size = size;
 
 	if (wnd->isFullscreen == true)
-		wnd->screen = SDL_SetVideoMode(argWidth, argHeight, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_FULLSCREEN|SDL_RESIZABLE);
+		wnd->screen = SDL_SetVideoMode(size.w, size.h, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_FULLSCREEN|SDL_RESIZABLE);
 	else
-		wnd->screen = SDL_SetVideoMode(argWidth, argHeight, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_RESIZABLE);
+		wnd->screen = SDL_SetVideoMode(size.w, size.h, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_RESIZABLE);
 
 	resizeGL(wnd);
 
-	return 0;
+	return ARC_SUCCESS;
 }
 
 ///	Toggle between fullscreen and windowed mode; linux only
-int ARC_WindowToggleFullScreen(ARC_Window *wnd)
+bool ARC_WindowToggleFullScreen(ARC_Window *wnd)
 {
 	if(SDL_WM_ToggleFullScreen(wnd->screen) == 0)
 	{
 		//log.error("Window: Failed to toggle fullscreen");
-		return 0;
+		return ARC_WINDOW_TOGGLE;
 	}
 
 	wnd->isFullscreen = !wnd->isFullscreen;
-	return wnd->isFullscreen;
 
-	return 0;
+	return wnd->isFullscreen;
 }
 
 int ARC_WindowClear(void)
 {
 	SDL_GL_SwapBuffers();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	return 0;
+	return ARC_SUCCESS;
 }
 
 //	Captures a screenshot and saves in BMP format to current directory
@@ -185,12 +191,6 @@ int ARC_WindowSaveBMP(ARC_Window *wnd, char* argFile)
 	unsigned char *pixels=NULL;
 	int i;
 
-	if (!(wnd->screen->flags & SDL_OPENGL))
-	{
-		SDL_SaveBMP(temp, argFile);
-		return 0;
-	}
-
 	temp = SDL_CreateRGBSurface(SDL_SWSURFACE, wnd->screen->w, wnd->screen->h, 24,
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
 	0x000000FF, 0x0000FF00, 0x00FF0000, 0
@@ -198,14 +198,17 @@ int ARC_WindowSaveBMP(ARC_Window *wnd, char* argFile)
 	0x00FF0000, 0x0000FF00, 0x000000FF, 0
 #endif
 	);
+
 	if (temp == NULL)
-		return -1;
+	{
+		return ARC_SURFACE_IS_NULL;
+	}
 
 	pixels = malloc(3 * wnd->screen->w * wnd->screen->h);
 	if (pixels == NULL)
 	{
 		SDL_FreeSurface(temp);
-		return -1;
+		return ARC_SURFACE_IS_NULL;
 	}
 
 	glReadPixels(0, 0, wnd->screen->w, wnd->screen->h, GL_RGB, GL_UNSIGNED_BYTE, pixels);
@@ -217,8 +220,6 @@ int ARC_WindowSaveBMP(ARC_Window *wnd, char* argFile)
 	SDL_SaveBMP(temp, argFile);
 	SDL_FreeSurface(temp);
 
-	return 0;
+	return ARC_SUCCESS;
 }
-
-// load up SDL
 

@@ -1,4 +1,5 @@
-/** \file Window.h
+/**
+    \file Window.h
     \brief
 
     Code handling a the creation, destruction, etc. of a
@@ -20,6 +21,8 @@
 #include <GL/glu.h>
 #include <SDL/SDL.h>
 
+#include "Size.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -35,7 +38,7 @@ typedef struct ARC_Window
 	char *title;
 
 	/// Window width and height
-	int width, height;
+	Size size;
 
 	/// Whether or not window is fullscreen
 	int isFullscreen;
@@ -60,7 +63,7 @@ typedef struct ARC_Window
  * \param Whether Window is fullscreen or not
  * \param Whether Window is resizable or not
  */
-int ARC_WindowInt(ARC_Window *w, char *title, int width, int height, int isFS, int isR);
+int ARC_WindowInit(ARC_Window *w, char *title, Size ws, int isFS, int isR);
 
 /**
  * Resize the window
@@ -68,7 +71,7 @@ int ARC_WindowInt(ARC_Window *w, char *title, int width, int height, int isFS, i
  * \param Width to resize to
  * \param Height to resize to
  */
-int ARC_WindowResize(ARC_Window *w, int argWidth, int argHeight);
+int ARC_WindowResize(ARC_Window *w, Size ns);
 
 /**
  * Close the game application
@@ -78,7 +81,7 @@ int ARC_WindowQuit(ARC_Window *w);
 /**
  * Toggle fullscreen (works on linux only)
  */
-int ARC_WindowToggleFullScreen(ARC_Window *wnd);
+bool ARC_WindowToggleFullScreen(ARC_Window *wnd);
 
 /**
  * Captures a screenshot and saves in BMP format to current directory

@@ -1,5 +1,6 @@
 
 #include "Log.h"
+#include "Types.h"
 
 int ARC_InitLogger(char* appender)
 {
@@ -15,5 +16,5 @@ int ARC_InitLogger(char* appender)
 		log4c_category_set_appender(rootLog, log4c_appender_get(appender));
 	}
 
-	return EXIT_SUCCESS;
+	return ARC_SUCCESS;
 }
