@@ -54,129 +54,130 @@ ARCFL ARC_PointDot(ARC_Point *p, ARC_Point *v)
 }
 
 /** Vector bCross product */
-ARCFL ARC_PointCross(ARC_Point *p, ARC_Point v)
+ARCFL ARC_PointCross(ARC_Point *p, ARC_Point* v)
 {
-	return x * v.y - y * v.x;
+	return p->x * v->y - p->y * v->x;
 }
 
 /** Scalar cross product */
-ARC_Point ARC_PointCross(ARC_Point *p, ARCFL s)
+ARC_Point ARC_PointCrossf(ARC_Point *p, ARCFL s)
 {
-	Point p;
-	p.x = -s * y;
-	p.y = s * x;
+	ARC_Point n;
+	n.x = -s * p->y;
+	n.y = s * p->x;
+	return n;
+}
+
+/** Scalar addition */
+ARC_Point ARC_PointAddf(ARC_Point *p, ARCFL V)
+{
+	ARC_Point n;
+	n.x = p->x + V;
+	n.y = p->y + V;
+	return n;
+}
+
+/** Scalar subtraction */
+ARC_Point ARC_PointSubf(ARC_Point *p, ARCFL n)
+{
+	ARC_Point np;
+	np.x = p->x - n;
+	np.y = p->y - n;
+	return np;
+}
+
+/** Scalar addition */
+ARC_Point* ARC_PointAddAssignf(ARC_Point *p, ARCFL V)
+{
+	p->x += V;
+	p->y += V;
 	return p;
 }
 
-/** Vector bDot product */
-ARCFL ARC_PointDot(ARC_Point *p, ARC_Point v) {
-	return x * v.x + y * v.y;
-}
-
-/** Vector bCross product */
-ARCFL ARC_PointCross(ARC_Point *p, ARC_Point v) {
-	return x * v.y - y * v.x;
-}
-
-/** Scalar cross product */
-ARC_Point ARC_PointCross(ARC_Point *p, ARCFL s) {
-	return Point(-s * y, s * x);
-}
-
-/** Scalar addition */
-ARC_Point ARC_PointAdd(ARC_Point *p, ARCFL V)
-{
-	return Point(x + V, y + V);
-}
-
 /** Scalar subtraction */
-ARC_Point ARC_PointSub(ARC_Point *p, ARCFL n)
+ARC_Point* ARC_PointSubAssignf(ARC_Point *p, ARCFL V)
 {
-	return Point(x - n, y - n);
-}
-
-/** Scalar addition */
-ARC_Point ARC_PointAddAssign(ARC_Point *p, ARCFL V)
-{
-	x += V;
-	y += V;
-	return *this;
-}
-
-/** Scalar subtraction */
-ARC_Point ARC_PointSubAssign(ARC_Point *p, ARCFL V)
-{
-	x -= V;
-	y -= V;
-	return *this;
+	p->x -= V;
+	p->y -= V;
+	return p;
 }
 
 /** Scalar multiplication */
-ARC_Point ARC_PointMulAssign(ARC_Point *p, ARCFL s)
+ARC_Point* ARC_PointMulAssignf(ARC_Point *p, ARCFL s)
 {
-	x *= s;
-	y *= s;
-	return *this;
+	p->x *= s;
+	p->y *= s;
+	return p;
 }
 
 /** Scalar multiplication */
-ARC_Point ARC_PointMul(ARC_Point *p, ARCFL s)
+ARC_Point ARC_PointMulf(ARC_Point *p, ARCFL s)
 {
-	return Point(x * s, y * s);
-}
-
-/** 2x2 matrix multiplication */
-ARC_Point ARC_PointMul(ARC_Point *p, Matrix a)
-{
-	return Point(a.col1.x * x + a.col2.x * y, a.col1.y * x + a.col2.y * y);
+	ARC_Point n;
+	n.x = p->x * s;
+	n.y = p->y * s;
+	return n;
 }
 
 /** Scalar division */
-ARC_Point ARC_PointDivAssign(ARC_Point *p, ARCFL s)
+ARC_Point* ARC_PointDivAssignf(ARC_Point *p, ARCFL s)
 {
-	x /= s;
-	y /= s;
-	return *this;
+	p->x /= s;
+	p->y /= s;
+	return p;
 }
 
 /** Scalar division */
 ARC_Point ARC_PointDiv(ARC_Point *p, ARCFL s)
 {
-	return Point(x / s, y / s);
+	ARC_Point n;
+	n.x = p->x / s;
+	n.y = p->y / s;
+	return n;
 }
 
 /** Vector addition */
-ARC_Point ARC_PointAddAssign(ARC_Point *p, ARC_Point Other)
+ARC_Point* ARC_PointAddAssign(ARC_Point *p, ARC_Point Other)
 {
-	x += Other.x;
-	y += Other.y;
-	return *this;
+	p->x += Other.x;
+	p->y += Other.y;
+	return p;
 }
 
 ///
 ARC_Point ARC_PointAdd(ARC_Point *p, ARC_Point V)
 {
-	return Point(x + V.x, y + V.y);
+	ARC_Point np;
+	np.x = p->x + V.x;
+	np.y = p->y + V.y;
+	return np;
 }
 
 ///
-ARC_Point ARC_PointSubAssign(ARC_Point *p, ARC_Point Other)
+ARC_Point* ARC_PointSubAssign(ARC_Point *p, ARC_Point Other)
 {
-	x -= Other.x;
-	y -= Other.y;
-	return *this;
+	p->x -= Other.x;
+	p->y -= Other.y;
+	return p;
 }
 
 ///
-ARC_Point ARC_PointSub(ARC_Point *p, ARC_Point V)
+ARC_Point ARC_PointSub(ARC_Point *p, ARC_Point* V)
 {
-	return Point(x - V.x, y - V.y);
+	ARC_Point np;
+	np.x = p->x - V->x;
+	np.y = p->y - V->y;
+	return np;
 }
+
 
 /// negation
 ARC_Point ARC_PointNeg(ARC_Point *p)
 {
-	return Point(-x, -y);
+	ARC_Point np;
+	np.x = p->x;
+	np.y = p->y;
+	return np;
 }
 
 ///
@@ -190,132 +191,115 @@ ARCFL ARC_PointMagnitude(ARC_Point* p)
 /// Point.length (if possible).
 ARCFL ARC_PointLengthSquared(ARC_Point *p)
 {
-	return x * x + y * y;
+	return p->x * p->x + p->y * p->y;
 }
 
 /// Get the length of this vector (the norm).
 ARCFL ARC_PointLength(ARC_Point *p)
 {
-	return sqrt(x * x + y * y);
+	return sqrt(p->x * p->x + p->y * p->y);
 }
 
 /// Convert this vector into a unit vector. Returns the length.
 ARCFL ARC_PointNormalize(ARC_Point *p)
 {
-	ARCFL length = length();
-	if (length < ARCFL.epsilon)
-	{
-		return 0.0f;
-	}
+	ARCFL length = ARC_PointLength(p);
+
 	ARCFL invLength = 1.0f / length;
-	x *= invLength;
-	y *= invLength;
+	p->x *= invLength;
+	p->y *= invLength;
 
 	return length;
 }
 
 ///
-ARC_Point ARC_PointNormalizeCopy(ARC_Point *p)
+ARC_Point* ARC_PointNormalizeCopy(ARC_Point *p)
 {
-	ARC_Point p = *this;
-	p.normalize();
+	ARC_PointNormalize(p);
 	return p;
 }
 
 ///
-ARCFL ARC_PointDistance(ARC_Point *p, ARC_Point v)
+ARCFL ARC_PointDistance(ARC_Point *p, ARC_Point* v)
 {
-	ARC_Point delta = Point(x, y) - v;
-	return delta.magnitude();
+	ARC_Point delta = ARC_PointSub(p, v);
+	return ARC_PointMagnitude(&delta);
 }
 
 ///
 ARC_Point ARC_PointPerp(ARC_Point *p)
 {
-	return Point(-y, x);
+	ARC_Point np;
+	np.x = p->x;
+	np.y = -p->y;
+	return np;
 }
 
 ///
-ARC_Point ARC_PointClampMax(ARC_Point *p, ARCFL max)
+ARC_Point* ARC_PointClampMax(ARC_Point *p, ARCFL max)
 {
 	ARCFL l = magnitude();
 
 	if (l > max)
-		*this *= (max / l);
-	return Point(x, y);
+		ARC_PointMulAssign(p, ARC_PointDivf(l, max));
+	return p;
 }
 
 ///
-ARC_Point ARC_PointInterpEquals(ARC_Point *p, ARCFL blend, ARC_Point v)
+ARCFL ARC_PointAngle(ARC_Point *p, ARC_Point* v)
 {
-	x += blend * (v.x - x);
-	y += blend * (v.y - y);
-	return Point(x, y);
+	ARCFL v1 = ARC_PointCross(p, v);
+	ARCFL v2 = ARC_PointDot(p, v);
+
+	return atan2(v1,v2);
+}
+
+ARC_Point ARC_PointRotate(ARC_Point *p, ARC_Point* v)
+{
+	ARC_Point np;
+	np.x = p->x * v->x - p->y * v->y;
+	np.y = p->x * v->y + p->y * v->x;
+	return np;
 }
 
 ///
-ARC_Point ARC_PointProjectOnto(ARC_Point *p, ARC_Point v)
+ARC_Point ARC_PointRotatef(ARC_Point *p, ARCFL angle)
 {
-	ARCFL dp = Point(x, y).bDot(v);
-	ARCFL f = dp / (v.x * v.x + v.y * v.y);
+	ARCFL cv = cos(angle);
+	ARCFL sv = sin(angle);
 
-	return Point(f * v.x, f * v.y);
+	ARC_Point np;
+	np.x = (cv * p->x) - (sv * p->y);
+	np.y = (cv * p->y) + (sv * p->x);
+
+	return np;
 }
 
 ///
-ARCFL ARC_PointAngle(ARC_Point *p, ARC_Point v)
+ARC_Point* ARC_PointRotateAround(ARC_Point *p1, ARC_Point *p2, ARCFL angle)
 {
-	return atan2(Point(x, y).bCross(v), Point(x, y).bDot(v));
+	ARC_Point sub = ARC_PointSub(p2, p1);
+	ARC_Point diff = ARC_PointRotatef(&sub, angle);
+
+	p1->x = p2->x + diff.x;
+	p1->y = p2->y + diff.y;
+
+	return p1;
 }
 
 ///
-static ARC_Point ARC_PointForAngle(ARC_Point *p, ARCFL a)
+ARC_Point ARC_PointRotateEquals(ARC_Point *p, ARCFL angle)
 {
-	return Point(cos(a), sin(a));
-}
+	ARCFL cv = cos(angle);
+	ARCFL sv = sin(angle);
+	ARCFL rx = (cv * p->x) - (sv * p->y);
+	ARCFL ry = (cv * p->y) + (sv * p->x);
 
-///
-void ARC_PointForAngleEquals(ARC_Point *p, ARCFL a)
-{
-	this.x = cos(a);
-	this.y = sin(a);
-}
+	ARC_Point np;
+	np.x = rx;
+	np.y = ry;
 
-ARC_Point ARC_PointRotate(ARC_Point *p, ARC_Point v)
-{
-	return Point(x * v.x - y * v.y, x * v.y + y * v.x);
-}
-
-///
-ARC_Point ARC_PointRotate(ARC_Point *p, ARCFL angle)
-{
-	ARCFL cos = cos(angle);
-	ARCFL sin = sin(angle);
-
-	return Point((cos * x) - (sin * y), (cos * y) + (sin * x));
-}
-
-///
-ARC_Point ARC_PointRotateAround(ARCFL angle, ARC_Point point)
-{
-	ARC_Point d = (Point(x, y) - point).rotate(angle);
-
-	x = point.x + d.x;
-	y = point.y + d.y;
-	return Point(x, y);
-}
-
-///
-ARC_Point ARC_PointRotateEquals(ARCFL angle)
-{
-	ARCFL cos = cos(angle);
-	ARCFL sin = sin(angle);
-	ARCFL rx = (cos * x) - (sin * y);
-	ARCFL ry = (cos * y) + (sin * x);
-
-	x = rx;
-	y = ry;
-	return Point(x, y);
+	return np;
 }
 
 ///
@@ -326,12 +310,17 @@ bool ARC_PointIsZero(ARC_Point *p)
 
 ARC_Point ARC_PointRotateLeft90(ARC_Point *p)
 {
-	return Point(-y, x);
+	ARC_Point np;
+	np.x = p->x;
+	np.y = -p->y;
+	return np;
 }
 
 ARC_Point ARC_PointRotateRight90(ARC_Point *p)
 {
-	return Point(y, -x);
-}
+	ARC_Point np;
+	np.x = -p->x;
+	np.y = p->y;
+	return np; }
 
 

@@ -8,6 +8,10 @@
 #ifndef _ARC_POINT_H_
 #define _ARC_POINT_H_
 
+#include <stdbool.h>
+#include <stdlib.h>
+#include <math.h>
+
 #include "Types.h"
 
 #ifdef __cplusplus
