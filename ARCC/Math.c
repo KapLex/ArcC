@@ -1,4 +1,5 @@
 
+#include "Math.h"
 
 void ARC_MathInit()
 {
@@ -20,13 +21,13 @@ DEGREES ARC_MathRadiansToDegrees(RADIANS rad)
 /// restricts an angle to the 0 - 360 range
 DEGREES ARC_MathRestrictDegree(DEGREES deg)
 {
-	return deg % 360;
+	return (int)deg % 360;
 }
 
 /// restricts an angle to the 0 - 2PI range
 RADIANS ARC_MathRestrictRadian(RADIANS rad)
 {
-	return rad % (2*PI);
+	return (int)rad % (int)TWOPI;
 }
 
 /*******************************************************************************
@@ -47,9 +48,9 @@ bool ARC_MathWithinRange(ARCFL argNum, ARCFL argTarget, ARCFL argRange)
    Calculate the distance between 2 points
 
 *******************************************************************************/
-ARCFL ARC_MathDistance(ARCFL x1, ARCFL y1, ARCFL x2, ARCFL y2)
+ARCFL ARC_MathDistance(ARC_Point *p1, ARC_Point *p2)
 {
-	return sqrt(pow(x2-x1, 2) + pow(y2-y1, 2));
+	return sqrt(pow(p2->x-p1->x, 2) + pow(p2->y-p1->y, 2));
 }
 
 /*******************************************************************************
@@ -71,12 +72,13 @@ int ARC_MathNextPowerOfTwo(int a)
 *******************************************************************************/
 int ARC_MathRandomRange(ARCFL a, ARCFL b)
 {
-	return (int)(a + (rand()  % (b+1-a)));
+	return (int)(a + (rand()  % (int)(b+1-a)));
 }
 
 /// Finds the roots
 bool ARC_MathFindRoots(ARCFL a, ARCFL b, ARCFL c, ARCFL* t0, ARCFL* t1)
 {
+	/*
 	ARCFL d = b*b - (4.0f * a * c);
 
 	if (d < 0.0f)
@@ -86,8 +88,8 @@ bool ARC_MathFindRoots(ARCFL a, ARCFL b, ARCFL c, ARCFL* t0, ARCFL* t1)
 
 	ARCFL one_over_two_a = 1.0f / (2.0f * a);
 
-	t0 = (-b - d) * one_over_two_a;
-	t1 = (-b + d) * one_over_two_a;
+	t0 = ((-b - d) * one_over_two_a);
+	t1 = ((-b + d) * one_over_two_a);
 
 	if (t1 < t0)
 	{
@@ -95,15 +97,14 @@ bool ARC_MathFindRoots(ARCFL a, ARCFL b, ARCFL c, ARCFL* t0, ARCFL* t1)
 		t0 = t1;
 		t1 = t;
 	}
+	*/
 	return true;
 }
 
 
 /// area of a polygon
-ARCFL ARC_MathArea(ARC_Point* contour)
+ARCFL ARC_MathArea(ARC_Point* contour, int n)
 {
-	int n = contour.length;
-
 	ARCFL A=0.0f;
 
 	for(int p=n-1,q=0; q<n; p=q++)
@@ -115,7 +116,7 @@ ARCFL ARC_MathArea(ARC_Point* contour)
 }
 
 /// Max distance of a given point from a given set of points
-ARCFL ARC_MathMaxDistance(ARC_Point given, ARC_Point* set, int setLength)
+ARCFL ARC_MathMaxDistance(ARC_Point* given, ARC_Point* set, int setLength)
 {
 	ARCFL max = 0;
 	ARCFL tmp = 0;
@@ -123,7 +124,7 @@ ARCFL ARC_MathMaxDistance(ARC_Point given, ARC_Point* set, int setLength)
 	for (int i = 0; i < setLength; i++)
 	{
 		// measure distance
-		tmp = given.distance(set[i]);
+		tmp = ARC_MathDistance(given, &set[i]);
 
 		// if greater than current max point, then make this distance the maximum
 		if (tmp > max)
@@ -136,7 +137,7 @@ ARCFL ARC_MathMaxDistance(ARC_Point given, ARC_Point* set, int setLength)
 /// swap ARCFL values
 void ARC_MathSwapf(ARCFL* a, ARCFL* b)
 {
-	ARCFL c = a;
+	ARCFL *c = a;
 	a = b;
 	b = c;
 }
@@ -162,7 +163,7 @@ ARCFL ARC_MathSignf(ARCFL x)
 /// Random number in range [-1,1]
 ARCFL ARC_MathRandom()
 {
-	ARCFL r = Kiss.instance.fraction();
+	ARCFL r = rand();
 
 	r = 2.0f * r - 1.0f;
 	return r;

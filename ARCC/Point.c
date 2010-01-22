@@ -1,9 +1,9 @@
 #include "Point.h"
 
 /// rotate
-ARC_Point ARC_PointRotateCopy(ARC_Point *p, Radians angle)
+ARC_Point ARC_PointRotateCopy(ARC_Point *p, RADIANS angle)
 {
-	Point t;
+	ARC_Point t;
 
 	t.x = p->x*cos(angle)-p->y*sin(angle);
 	t.y = p->x*sin(angle)+p->y*cos(angle);
@@ -23,7 +23,7 @@ ARC_Point ARC_PointMakePerpTo(ARC_Point *p)
 /*** unfortunately, making this an opCall makes Point(1,1) ambigious...
 Point 'constructor' from polar coordinates
 */
-ARC_Point ARC_PointFromPolar(ARC_Point *p, ARCFL length, Radians angle)
+ARC_Point ARC_PointFromPolar(ARC_Point *p, ARCFL length, RADIANS angle)
 {
 	ARC_Point v;
 	v.x = length * cos(angle);
@@ -33,13 +33,24 @@ ARC_Point ARC_PointFromPolar(ARC_Point *p, ARCFL length, Radians angle)
 
 
 /// scaling product
-ARC_Point ARC_PointScale(ARC_Point *p, ARCFL by) { *this *= by; return *this; }
-ARC_Point ARC_PointScale(ARC_Point *p, ARC_Point* by) { x *= by.x; y *= by.y; return *this; }
+ARC_Point* ARC_PointScalef(ARC_Point *p, ARCFL by)
+{
+	p->x *= by;
+	p->y *= by;
+	return p;
+}
+
+ARC_Point* ARC_PointScale(ARC_Point *p, ARC_Point* by)
+{
+	p->x *= by->x;
+	p->y *= by->y;
+	return p;
+}
 
 /** Vector bDot product */
-ARCFL ARC_PointDot(ARC_Point *p, ARC_Point v)
+ARCFL ARC_PointDot(ARC_Point *p, ARC_Point *v)
 {
-	return x * v.x + y * v.y;
+	return p->x * v->x + p->y * v->y;
 }
 
 /** Vector bCross product */

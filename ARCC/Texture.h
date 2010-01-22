@@ -43,12 +43,12 @@ typedef struct ARC_TextureOptions
 
 void ARC_TextureInit();
 
-ARC_Texture* ARC_TextureLoad(char* fileName, ARC_TextureOpts* opts);
+ARC_Texture* ARC_TextureLoad(char* fileName, ARC_TextureOptions* opts);
 
 void ARC_TextureDestroy(ARC_Texture *t);
 
 /// Enable texturing
-void ARC_TextureEnable(Texture *t);
+void ARC_TextureEnable(ARC_Texture *t);
 
 #ifdef __cplusplus
 }

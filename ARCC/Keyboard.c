@@ -9,10 +9,10 @@
 *******************************************************************************/
 void ARC_KeyboardClearHit(ARC_Keyboard *k)
 {
-		charHit = false;
-		lastChars.length = 0;
+		k->charHit = false;
+		k->lastChars = NULL;
 		for (int i = 0; i < ARC_LAST; i++)
-			status[i] &= KeyStatus.DOWN;
+			k->status[i] &= DOWN;
 }
 
 /*******************************************************************************
@@ -22,9 +22,9 @@ void ARC_KeyboardClearHit(ARC_Keyboard *k)
 *******************************************************************************/
 void ARC_KeyboardClear(ARC_Keyboard *k)
 {
-		ARC_KeyboardSetKeysDown();
+		ARC_KeyboardSetKeysDown(k);
 		for (int i = 0; i < ARC_LAST; i++)
-			status[i] = KeyStatus.UP;
+			k->status[i] = UP;
 }
 
 /*******************************************************************************
@@ -35,16 +35,16 @@ void ARC_KeyboardClear(ARC_Keyboard *k)
 void ARC_KeyboardProcessKeyDown(ARC_Keyboard *k, SDL_KeyboardEvent *event)
 {
 	// evaluate if this does make sense
-	status[ANYKEY] |= KeyStatus.DOWN | KeyStatus.PRESSED; // anykey hit
+	k->status[ARC_ANYKEY] |= DOWN | PRESSED; // ARC_ANYKEY hit
 
 	// set 'down' and 'pressed' bits
-	status[event.keysym.sym] |= KeyStatus.DOWN | KeyStatus.PRESSED;
+	k->status[event->keysym.sym] |= DOWN | PRESSED;
 
-	charHit = true;
+	k->charHit = true;
 
-	if ( event.keysym.unicode ) // if character needs to be translated
+	if ( event->keysym.unicode ) // if character needs to be translated
 	{
-		lastChars = strcat(lastChars,  (char)(event.keysym.unicode)); // store the translated character
+		strcat(k->lastChars,  (char)(event->keysym.unicode)); // store the translated character
 	}
 }
 
@@ -56,12 +56,9 @@ void ARC_KeyboardProcessKeyDown(ARC_Keyboard *k, SDL_KeyboardEvent *event)
 void ARC_KeyboardProcessKeyUp(ARC_Keyboard *k, SDL_KeyboardEvent *event)
 {
 	// evaluate if this does make sense
-	status[ANYKEY] |= KeyStatus.UP | KeyStatus.RELEASED; // some key was released
+	k->status[ARC_ANYKEY] |= UP | RELEASED; // some key was released
 
 	// unset 'down' bit, set the 'released' bit
-	status[event.keysym.sym] &= KeyStatus.PRESSED | KeyStatus.RELEASED;
-	status[event.keysym.sym] |= KeyStatus.RELEASED;
-
-	// emit signal
-	arc.internals.input.signals.signals.keyUp(event.keysym.sym);
+	k->status[event->keysym.sym] &= PRESSED | RELEASED;
+	k->status[event->keysym.sym] |= RELEASED;
 }

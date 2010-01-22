@@ -8,7 +8,7 @@ Font.d Font.o: ../Font.c ../Font.h \
  /usr/include/freetype2/freetype/fterrdef.h \
  /usr/include/freetype2/freetype/fttypes.h \
  /usr/include/freetype2/freetype/ftsystem.h \
- /usr/include/freetype2/freetype/ftimage.h
+ /usr/include/freetype2/freetype/ftimage.h ../Types.h
 
 ../Font.h:
 
@@ -31,3 +31,5 @@ Font.d Font.o: ../Font.c ../Font.h \
 /usr/include/freetype2/freetype/ftsystem.h:
 
 /usr/include/freetype2/freetype/ftimage.h:
+
+../Types.h:

@@ -55,14 +55,14 @@ void ARC_DrawImage(ARC_Texture* texture, ARC_Point* pos, ARC_Size* size, ARC_Poi
 	ARCFL halfWidth = size->w/2;
 	ARCFL halfHeight = size->h/2;
 
-	ARCFL texw = (texture->getSize.w / texture->getTextureSize.w);
-	ARCFL texh = (texture->getSize.h / texture->getTextureSize.h);
+	ARCFL texw = (texture->imageSize.w / texture->textureSize.w);
+	ARCFL texh = (texture->imageSize.h / texture->textureSize.h);
 
 	// enable 2d textures and bind texture
 	glEnable(GL_TEXTURE_2D);
 
 	// bind texture ID to this tex
-	glBindTexture(GL_TEXTURE_2D, texture->getID);
+	glBindTexture(GL_TEXTURE_2D, texture->ID);
 
 	// set color to one given
 	ARC_DrawSetGLColor(color);
@@ -100,7 +100,7 @@ void ARC_DrawImageTopLeft(ARC_Texture* texture, ARC_Point* pos, ARC_Size* size, 
 	glEnable(GL_TEXTURE_2D);
 
 	// bind texture ID to this tex
-	glBindTexture(GL_TEXTURE_2D, texture->getID);
+	glBindTexture(GL_TEXTURE_2D, texture->ID);
 
 	// set color to one given
 	ARC_DrawColorSetGL(color);
@@ -110,8 +110,8 @@ void ARC_DrawImageTopLeft(ARC_Texture* texture, ARC_Point* pos, ARC_Size* size, 
 	// rotate and translate
 	glTranslatef(pos->x,pos->y,0);
 
-	ARCFL texw = texture->getSize.w / texture->getTextureSize.w;
-	ARCFL texh = texture->getSize.h / texture->getTextureSize.h;
+	ARCFL texw = texture->imageSize.w / texture->textureSize.w;
+	ARCFL texh = texture->imageSize.h / texture->textureSize.h;
 
 	// draw image at given coords, binding texture appropriately
 	glBegin(GL_QUADS);
@@ -145,8 +145,8 @@ void ARC_DrawImageSubsection(ARC_Texture* texture, ARC_Point* topLeft, ARC_Point
 	// draw image at given coords, binding texture appropriately
 	glBegin(GL_QUADS);
 
-	ARCFL width = texture->getTextureSize.w;
-	ARCFL height = texture->getTextureSize.h;
+	ARCFL width = texture->textureSize.w;
+	ARCFL height = texture->textureSize.h;
 
 	ARCFL
 		tLeft = topLeft->x / width,
@@ -343,7 +343,9 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 
 	ARCFL px, py;
 
-	ARC_Point* start = { pos->x+(size->h/2), pos->y+(size->h/2) };
+	ARC_Point start;
+	start.x = pos->x+(size->h/2);
+	start.y = pos->y+(size->h/2);
 
 	// first draw from 90-->180
 	for (ARCFL i = 90; i <= 270; i += 360.0/detail)
@@ -361,14 +363,15 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 		py = x_save * sin(py); // for too many variables
 
 		// and draw it
-		glVertex2f(start->x+px, start->y+py);
+		glVertex2f(start.x+px, start.y+py);
 	}
 
 	// draw from top left --> right left
 	glVertex2f(pos->x+(size->h/2), pos->y);
 	glVertex2f(pos->x+size->w-(size->h/2), pos->y);
 
-	start = { pos->x+size->w-(size->h/2), pos->y+(size->h/2) };
+	start.x = pos->x+size->w-(size->h/2);
+	start.y = pos->y+(size->h/2);
 
 	// first draw from 270-->360
 	for (ARCFL i = 270; i <= 360; i += 360.0/detail)
@@ -386,7 +389,7 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 		py = x_save * sin(py); // for too many variables
 
 		// and draw it
-		glVertex2f(start->x+px, start->y+py);
+		glVertex2f(start.x+px, start.y+py);
 	}
 
 	// first draw from 270-->360
@@ -405,7 +408,7 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 		py = x_save * sin(py); // for too many variables
 
 		// and draw it
-		glVertex2f(start->x+px, start->y+py);
+		glVertex2f(start.x+px, start.y+py);
 	}
 
 	// next draw top left corner
@@ -436,7 +439,7 @@ void ARC_DrawPolygon(ARC_Point* pos, ARC_Point* polygon, int polylength, ARC_Dra
 
 	for (i = 0; i < polylength; i++)
 	{
-		glVertex2f(pos->x + polygon[i]->x, pos->y + polygon[i]->y);
+		glVertex2f(pos->x + polygon[i].x, pos->y + polygon[i].y);
 	}
 
 	glEnd();
@@ -455,7 +458,7 @@ void ARC_DrawPolyLine(ARC_Point* pos, ARC_Point* polygon, int polylength, ARC_Dr
 
 	for (int i = 0; i < polylength; i++)
 	{
-		glVertex2f(pos->x + polygon[i]->x, pos->y + polygon[i]->y);
+		glVertex2f(pos->x + polygon[i].x, pos->y + polygon[i].y);
 	}
 
 	glEnd();

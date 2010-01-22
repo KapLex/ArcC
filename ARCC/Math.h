@@ -7,6 +7,7 @@
 #ifndef _ARC_MATH_H_
 #define _ARC_MATH_H_
 
+#include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 
@@ -40,7 +41,7 @@ bool ARC_MathWithinRange(ARCFL argNum, ARCFL argTarget, ARCFL argRange);
    Calculate the distance between 2 points
 
 *******************************************************************************/
-ARCFL ARC_MathDistance(ARCFL x1, ARCFL y1, ARCFL x2, ARCFL y2);
+ARCFL ARC_MathDistance(ARC_Point *p1, ARC_Point *p2);
 /*******************************************************************************
 
    Returns the next power of two
@@ -59,9 +60,9 @@ bool ARC_MathFindRoots(ARCFL a, ARCFL b, ARCFL c, ARCFL* t0, ARCFL* t1);
 
 
 /// area of a polygon
-ARCFL ARC_MathArea(ARC_Point* contour);
+ARCFL ARC_MathArea(ARC_Point* contour, int len);
 /// Max distance of a given point from a given set of points
-ARCFL ARC_MathMaxDistance(ARC_Point given, ARC_Point* set, int setLength);
+ARCFL ARC_MathMaxDistance(ARC_Point* given, ARC_Point* set, int setLength);
 
 /// swap ARCFL values
 void ARC_MathSwapf(ARCFL* a, ARCFL* b);

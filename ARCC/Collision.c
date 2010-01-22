@@ -26,7 +26,7 @@ bool ARC_CollisionBoxCircle(ARC_Point* boxPos, ARC_Size* boxSize, ARC_Point* cir
 	// understanding of what this algorithm does
 
 	// destination x and y values this algorithms calculates
-	ARCFL gx = 0, gy = 0;
+	ARC_Point g;
 
 	// box center point
 	ARCFL x2 = boxPos->x + boxSize->w/2;
@@ -42,22 +42,22 @@ bool ARC_CollisionBoxCircle(ARC_Point* boxPos, ARC_Size* boxSize, ARC_Point* cir
 		// middle
 		if (circlePos->x >= boxPos->x && circlePos->x <= nw2)
 		{
-			gx = circlePos->x;
-			gy = nh2;
+			g.x = circlePos->x;
+			g.y = nh2;
 			//debug writefln("top middle");
 		}
 		// left
 		if (circlePos->x > nw2)
 		{
-			gx = nw2;
-			gy = nh2;
+			g.x = nw2;
+			g.y = nh2;
 			//debug writefln("top left");
 		}
 		// right
 		if (circlePos->x < boxPos->x)
 		{
-			gx = boxPos->x;
-			gy = nh2;
+			g.x = boxPos->x;
+			g.y = nh2;
 			//debug writefln("top right");
 		}
 	}
@@ -67,22 +67,22 @@ bool ARC_CollisionBoxCircle(ARC_Point* boxPos, ARC_Size* boxSize, ARC_Point* cir
 		// middle
 		if (circlePos->x >= boxPos->x && circlePos->x <= nw2)
 		{
-			gx = circlePos->x;
-			gy = boxPos->y;
+			g.x = circlePos->x;
+			g.y = boxPos->y;
 			//debug writefln("bottom middle");
 		}
 		// left
 		if (circlePos->x > nw2)
 		{
-			gx = nw2;
-			gy = boxPos->y;
+			g.x = nw2;
+			g.y = boxPos->y;
 			//debug writefln("bottom left");
 		}
 		// right
 		if (circlePos->x < boxPos->x)
 		{
-			gx = boxPos->x;
-			gy = boxPos->y;
+			g.x = boxPos->x;
+			g.y = boxPos->y;
 			//debug writefln("bottom right");
 		}
 	}
@@ -90,19 +90,19 @@ bool ARC_CollisionBoxCircle(ARC_Point* boxPos, ARC_Size* boxSize, ARC_Point* cir
 	// boxframe is on right middle of radframe
 	if (circlePos->x < x2 && nh2 > circlePos->y && boxPos->y < circlePos->y)
 	{
-		gx = boxPos->x;
-		gy = circlePos->y;
+		g.x = boxPos->x;
+		g.y = circlePos->y;
 		//debug writefln("right middle");
 	}
 	// boxframe is on left middle of radframe
 	else if (circlePos->x > x2 && nh2 > circlePos->y && boxPos->y < circlePos->y)
 	{
-		gx = nw2;
-		gy = circlePos->y;
+		g.x = nw2;
+		g.y = circlePos->y;
 		//debug writefln("left middle");
 	}
 
-	if (ARC_MathDistance(circlePos->x, circlePos->y, gx, gy) <= radius)
+	if (ARC_MathDistance(&circlePos, &g) <= radius)
 		return true;
 
 	return false;
@@ -123,7 +123,7 @@ bool ARC_CollisionBoxXY(ARC_Point* point, ARC_Point* boxPos, ARC_Size* boxSize)
 /// determines whether or not 2 circles have collided
 bool ARC_CollisionCircleCircle(	ARC_Point* c1, ARCFL rad1, ARC_Point* c2, ARCFL rad2)
 {
-	if (ARC_MathDistance(c1->x, c1->y, c2->x, c2->y) <= (rad1 + rad2))
+	if (ARC_MathDistance(c1, c2) <= (rad1 + rad2))
 		return true;
 
 	return false;
@@ -132,7 +132,7 @@ bool ARC_CollisionCircleCircle(	ARC_Point* c1, ARCFL rad1, ARC_Point* c2, ARCFL 
 /// determine whether point x, y is within circle
 bool ARC_CollisionCircleXY(ARC_Point* pos, ARC_Point* c, ARCFL rad)
 {
-	if (ARC_MathDistance(c->x, c->y, pos->x, pos->y) <= rad)
+	if (ARC_MathDistance(c, pos) <= rad)
 		return true;
 
 	return false;

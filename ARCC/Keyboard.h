@@ -8,6 +8,12 @@
 #ifndef _ARC_KEYBOARD_H_
 #define _ARC_KEYBOARD_H_
 
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <SDL/SDL.h>
+
 #include "Types.h"
 
 #ifdef __cplusplus
@@ -16,9 +22,7 @@ extern "C" {
 
 typedef struct ARC_Keyboard
 {
-	KeyStatus status[ARC_LAST];
-
-	const char CHARNULL = NULL;
+	enum KeyStatus status[ARC_LAST];
 
 	/// whether any character was hit between two process calls
 	bool charHit;

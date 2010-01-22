@@ -22,6 +22,8 @@
 // log4c
 #include <log4c.h>
 
+#include "Types.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

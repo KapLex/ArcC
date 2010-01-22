@@ -8,6 +8,8 @@
 #ifndef _ARC_MOUSE_H_
 #define _ARC_MOUSE_H_
 
+#include <stdbool.h>
+#include <SDL/SDL.h>
 #include "Types.h"
 
 #ifdef __cplusplus
@@ -40,14 +42,14 @@ typedef struct ARC_Mouse
 		The next bool tells us whether or not the mouse has been moving. It is useful
 		so you can say, that if the mouse is moving, move a window with it.
 	**/
-	bool moving = false;
+	bool moving;
 
 	/// array of button information
-	KeyStatus buttonStatus[MAXMOUSEBUTTON];
+	enum KeyStatus buttonStatus[MAXMOUSEBUTTON];
 } ARC_Mouse;
 
 /// set default cursor visibility
-void ARC_MouseSetVisible(bool argV);
+void ARC_MouseSetVisible(ARC_Mouse *m, bool argV);
 /*******************************************************************************
 
 	Properly handle mouse motion

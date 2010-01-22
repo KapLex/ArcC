@@ -25,8 +25,8 @@ void ARC_InputInit(ARC_Input *i, bool keyRepeat)
 	i->focus = true;
 
 	// clear keyboard and mouse
-	i->keyboard.ARC_MouseClear();
-	i->mouse.ARC_MouseClear();
+	ARC_KeyboardClear(&i->keyboard);
+	ARC_MouseClear(&i->mouse);
 
 	// Enable UNICODE translation for keyboard input
 	SDL_EnableUNICODE(1);
@@ -40,19 +40,20 @@ void ARC_InputQuit(ARC_Input *i)
 {
 }
 
-/// returns the full KeyStatus information for the key
-KeyStatus ARC_InputGetKeyStatus(ARC_Input *i, int keyNum) { return i->keyboard.status[keyNum]; }
 /// test if is set
 bool isSet(int state, int flag) { return 0 != (state & flag); }
 
+/// returns the full KeyStatus information for the key
+enum KeyStatus ARC_InputGetKeyStatus(ARC_Input *i, int keyNum) { return i->keyboard.status[keyNum]; }
+
 /// returns true when key has gone from up to down between calls to process
-bool ARC_InputIsKeyPressed(ARC_Input *i, int keyNum) { return isSet(i->keyboard.status[keyNum], KeyStatus.PRESSED);   }
+bool ARC_InputIsKeyPressed(ARC_Input *i, int keyNum) { return isSet(i->keyboard.status[keyNum], PRESSED);   }
 /// returns true when key has gone from down to up between calls to process
-bool ARC_InputIsKeyReleased(ARC_Input *i, int keyNum) { return isSet(i->keyboard.status[keyNum], KeyStatus.RELEASED);  }
+bool ARC_InputIsKeyReleased(ARC_Input *i, int keyNum) { return isSet(i->keyboard.status[keyNum], RELEASED);  }
 /// returns true when key is physically down
-bool ARC_InputIsKeyDown(ARC_Input *i, int keyNum) { return isSet(i->keyboard.status[keyNum], KeyStatus.DOWN);  }
+bool ARC_InputIsKeyDown(ARC_Input *i, int keyNum) { return isSet(i->keyboard.status[keyNum], DOWN);  }
 /// returns true when key is physically up
-bool ARC_InputIsKeyUp(ARC_Input *i, int keyNum) { return !isSet(i->keyboard.status[keyNum], KeyStatus.DOWN);  }
+bool ARC_InputIsKeyUp(ARC_Input *i, int keyNum) { return !isSet(i->keyboard.status[keyNum], DOWN);  }
 
 /// returns true if user has hit a character on the keyboard between two calls to process
 bool ARC_InputIsCharHit(ARC_Input *i)           { return ARC_KeyboardIsCharHit(i->keyboard);       }
@@ -65,16 +66,16 @@ char* ARC_InputGetLastChars(ARC_Input *i)         { return i->keyboard.lastChars
 //
 
 /// returns full KeyStatus information for the button
-KeyStatus ARC_InputGetMouseButtonStatus(ARC_Input *i, int keyNum) { return i->mouse.buttonStatus[keyNum]; }
+enum KeyStatus ARC_InputGetMouseButtonStatus(ARC_Input *i, int keyNum) { return i->mouse.buttonStatus[keyNum]; }
 
 /// returns true if mouse button has gone from up to down between calls to process
-bool ARC_InputGetMouseButtonPressed(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], KeyStatus.PRESSED); }
+bool ARC_InputGetMouseButtonPressed(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], PRESSED); }
 /// returns true if mouse button has gone from down to up between calls to process
-bool ARC_InputGetMouseButtonReleased(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], KeyStatus.RELEASED); }
+bool ARC_InputGetMouseButtonReleased(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], RELEASED); }
 /// returns true if user holds mouse button down
-bool ARC_InputGetMouseButtonDown(ARC_Input *i, int keyNum)  { return isSet(i->mouse.buttonStatus[keyNum], KeyStatus.DOWN); }
+bool ARC_InputGetMouseButtonDown(ARC_Input *i, int keyNum)  { return isSet(i->mouse.buttonStatus[keyNum], DOWN); }
 /// returns true if user doesn't hold mouse button down
-bool ARC_InputGetMouseButtonUp(ARC_Input *i, int keyNum)  { return !isSet(i->mouse.buttonStatus[keyNum], KeyStatus.DOWN); }
+bool ARC_InputGetMouseButtonUp(ARC_Input *i, int keyNum)  { return !isSet(i->mouse.buttonStatus[keyNum], DOWN); }
 
 
 // NOTE: for the arc 2D game engine, mouse.x and mouse.y are only used
@@ -88,24 +89,36 @@ ARCFL ARC_InputGetMouseX(ARC_Input *i)               { return i->mouse.x2D;     
 /// mouseY position
 ARCFL ARC_InputGetMouseY(ARC_Input *i)               { return i->mouse.y2D;      }
 /// mouse position
-ARC_Point ARC_InputGetMousePos(ARC_Input *i) { return Point(i->mouse.x2D, i->mouse.y2D); }
+ARC_Point ARC_InputGetMousePos(ARC_Input *i)
+{
+	ARC_Point p;
+	p.x = i->mouse.x2D;
+	p.y = i->mouse.y2D;
+	return p;
+}
 /// old mouse X position
 ARCFL ARC_InputGetMouseOldX(ARC_Input *i)            { return i->mouse.oldX2D;   }
 /// old mouse Y position
 ARCFL ARC_InputGetMouseOldY(ARC_Input *i)            { return i->mouse.oldY2D;   }
 /// old mouse position
-ARC_Point ARC_InputGetMouseOldPos(ARC_Input *i) { return Point(i->mouse.oldX2D, i->mouse.oldY2D); }
+ARC_Point ARC_InputGetMouseOldPos(ARC_Input *i)
+{
+	ARC_Point p;
+	p.x = i->mouse.oldX2D;
+	p.y = i->mouse.oldY2D;
+	return p;
+}
 
 /// returns true when mouse is moving
 bool ARC_InputGetMouseMotion(ARC_Input *i)          { return i->mouse.moving; }
 
 /// set mouse cursor visibility
-void ARC_InputShowCursor(ARC_Input *i, bool argV) { i->mouse.ARC_MouseSetVisible(argV); }
+void ARC_InputShowCursor(ARC_Input *i, bool argV) { ARC_MouseSetVisible(&i->mouse, argV); }
 
 /// returns true when mouse is wheeling up
-bool ARC_InputGetWheelUp(ARC_Input *i)     { return isSet(i->mouse.buttonStatus[WHEELUP], KeyStatus.DOWN);   }
+bool ARC_InputGetWheelUp(ARC_Input *i)     { return isSet(i->mouse.buttonStatus[WHEELUP], DOWN);   }
 /// returns true when mouse is wheeling down
-bool ARC_InputGetWheelDown(ARC_Input *i)   { return isSet(i->mouse.buttonStatus[WHEELDOWN], KeyStatus.DOWN); }
+bool ARC_InputGetWheelDown(ARC_Input *i)   { return isSet(i->mouse.buttonStatus[WHEELDOWN], DOWN); }
 
 //
 // other methods
@@ -115,10 +128,10 @@ bool ARC_InputGetWheelDown(ARC_Input *i)   { return isSet(i->mouse.buttonStatus[
 bool ARC_InputGetFocus(ARC_Input *i) { return i->focus; }
 
 /// force quit of application
-void ARC_InputForceQuit(ARC_Input *i) { i->keyboard.status[ARC_QUIT] = KeyStatus.DOWN | KeyStatus.PRESSED; }
+void ARC_InputForceQuit(ARC_Input *i) { i->keyboard.status[ARC_QUIT] = DOWN | PRESSED; }
 
 /// returns true if quitting
-bool ARC_InputIsQuit(ARC_Input *i) { return (i->keyboard.status[ARC_QUIT] & KeyStatus.DOWN) != 0; }
+bool ARC_InputIsQuit(ARC_Input *i) { return (i->keyboard.status[ARC_QUIT] & DOWN) != 0; }
 
 /// Capture input from user
 void ARC_InputProcess(ARC_Input *i)
@@ -126,8 +139,8 @@ void ARC_InputProcess(ARC_Input *i)
 	SDL_Event event;
 
 	i->mouse.moving = false;
-	i->mouse.ARC_MouseClearHit();
-	i->keyboard.ARC_MouseClearHit();
+	ARC_MouseClearHit(&i->mouse);
+	ARC_KeyboardClearHit(&i->keyboard);
 
 	// Keep on looping through our event until all events are accounted for
 	while (SDL_PollEvent(&event))
@@ -140,39 +153,39 @@ void ARC_InputProcess(ARC_Input *i)
 		{
 			case SDL_ACTIVEEVENT:
 				if ( event.active.gain == 0 )
-					focus = false;
+					i->focus = false;
 				else
-					focus = true;
+					i->focus = true;
 			break;
 
 			case SDL_MOUSEBUTTONUP:
 				// clear mouse keys when button up
-				i->mouse.ARC_MouseProcessButtonUp(event.button);
+				ARC_MouseProcessButtonUp(&i->mouse, &event.button);
 			break;
 
 			case SDL_MOUSEBUTTONDOWN:
 				// handle mouse keys when button is down
-				i->mouse.ARC_MouseProcessButtonDown(event.button);
+				ARC_MouseProcessButtonDown(&i->mouse, &event.button);
 			break;
 
 			case SDL_MOUSEMOTION:
 				// handle mouse motion
-				i->mouse.ARC_MouseProcessMotion(event);
+				ARC_MouseProcessMotion(&i->mouse, &event);
 			break;
 
 			case SDL_KEYDOWN:
 				// handle key down
-				i->keyboard.ARC_KeyboardProcessKeyDown(event.key);
+				ARC_KeyboardProcessKeyDown(&i->keyboard, &event.key);
 			break;
 
 			case SDL_KEYUP:
 				// handle key up, release keys
-				i->keyboard.handleKeyUp(event.key);
+				handleKeyUp(&i->keyboard, event.key);
 			break;
 
 			case SDL_QUIT:
 				// set our SDL quit key to true
-				i->keyboard.status[SDL_QUIT] = KeyStatus.DOWN | KeyStatus.PRESSED;
+				i->keyboard.status[SDL_QUIT] = DOWN | PRESSED;
 			break;
 
 			case SDL_VIDEORESIZE:

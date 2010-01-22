@@ -22,6 +22,7 @@
 #include "Types.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Point.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,8 +33,8 @@ log4c_category_t* inputLog;
 typedef struct ARC_Input
 {
 	bool focus;
-	KeyBoard keyboard;
-	Mouse mouse;
+	ARC_Keyboard keyboard;
+	ARC_Mouse mouse;
 } ARC_Input;
 
 
@@ -60,9 +61,7 @@ void ARC_InputQuit(ARC_Input *i);
 //
 
 /// returns the full KeyStatus information for the key
-KeyStatus ARC_InputGetKeyStatus(ARC_Input *i, int keyNum);
-/// test if is set
-bool isSet(ARC_Input *i, int state, int flag);
+enum KeyStatus ARC_InputGetKeyStatus(ARC_Input *i, int keyNum);
 
 /// returns true when key has gone from up to down between calls to process
 bool ARC_InputIsKeyPressed(ARC_Input *i, int keyNum);
@@ -84,7 +83,7 @@ char* ARC_InputGetLastChars(ARC_Input *i);
 //
 
 /// returns full KeyStatus information for the button
-KeyStatus ARC_InputGetMouseButtonStatus(ARC_Input *i, int keyNum);
+enum KeyStatus ARC_InputGetMouseButtonStatus(ARC_Input *i, int keyNum);
 
 /// returns true if mouse button has gone from up to down between calls to process
 bool ARC_InputGetMouseButtonPressed(ARC_Input *i, int keyNum);

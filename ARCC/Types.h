@@ -32,10 +32,10 @@ enum
 #define DEGREES ARCFL
 
 /// Twice the value of PI
-#define TWOPI PI*2
+#define TWOPI M_PI*2
 
-#define DEGREE_TO_RADIAN PI/180
-#define RADIAN_TO_DEGREE 180/PI
+#define DEGREE_TO_RADIAN M_PI/180
+#define RADIAN_TO_DEGREE 180/M_PI
 
 /// possible states a key can be in
 enum KeyStatus
@@ -50,7 +50,7 @@ enum KeyStatus
 enum
 {
 	/* The keyboard syms have been cleverly chosen to map to ASCII */
-	ARC_ANY = 0,
+	ARC_ANYKEY = 0,
 	ARC_UNKNOWN    = 0,
 	ARC_FIRST      = 0,
 	ARC_BACKSPACE  = 8,
