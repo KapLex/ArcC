@@ -1,20 +1,23 @@
 #include "Rect.h"
 
-bool ARC_RectContains(ARC_Point* p)
+bool ARC_RectContains(ARC_Rect *r, ARC_Point* p)
 {
-	return (p->x >= topLeft->x && p->y >= topLeft->y && p->x < topLeft->x + size->w && p->y < topLeft->y + size->h);
+	return (   p->x >= r->topLeft.x
+			&& p->y >= r->topLeft.y
+			&& p->x < r->topLeft.x + r->size.w
+			&& p->y < r->topLeft.y + r->size.h);
 }
 
 /// tests if two rects intersect. both are closed
-bool ARC_RectIntersects(Rect* r)
+bool ARC_RectIntersects(ARC_Rect *r1, ARC_Rect *r2)
 {
-	if(r->topLeft->x >= topLeft->x + size->w)
+	if(r1->topLeft.x >= r2->topLeft.x + r2->size.w)
 		return false;
-	if(r->topLeft->y >= topLeft->y + size->h)
+	if(r1->topLeft.y >= r2->topLeft.y + r2->size.h)
 		return false;
-	if(r->topLeft->x + r->size->w <= topLeft->x)
+	if(r1->topLeft.x + r2->size.w <= r2->topLeft.x)
 		return false;
-	if(r->topLeft->y + r->size->h <= topLeft->y)
+	if(r1->topLeft.y + r2->size.h <= r2->topLeft.y)
 		return false;
 
 	return true;

@@ -7,6 +7,8 @@
 #ifndef ARC_TYPES_H_
 #define ARC_TYPES_H_
 
+#include <stdbool.h>
+
 #include "Point.h"
 #include "Size.h"
 
@@ -18,14 +20,14 @@ extern "C" {
 typedef struct ARC_Rect
 {
 	ARC_Point topLeft;
-	Size size;
+	ARC_Size size;
 } ARC_Rect;
 
 /// tests if point is inside rect
-bool ARC_RectContains(ARC_Point* p);
+bool ARC_RectContains(ARC_Rect *r, ARC_Point* p);
 
 /// tests if two rects intersect. both are closed
-bool ARC_RectIntersects(Rect* r);
+bool ARC_RectIntersects(ARC_Rect *r1, ARC_Rect* r2);
 
 #ifdef __cplusplus
 }

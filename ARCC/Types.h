@@ -5,8 +5,22 @@
     Data types defined by ArcC
 */
 
-#ifndef ARC_TYPES_H_
-#define ARC_TYPES_H_
+#ifndef ARC_TYPES_H
+#define ARC_TYPES_H
+
+// Numeric types
+#define ARCFL float
+
+/// alias to point out that this stores radians, not degrees
+// a typedef causes all kind of annoyances, unfortunately
+#define RADIANS ARCFL
+#define DEGREES ARCFL
+
+/// Twice the value of PI
+#define TWOPI M_PI*2
+
+#define DEGREE_TO_RADIAN M_PI/180
+#define RADIAN_TO_DEGREE 180/M_PI
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,20 +36,6 @@ enum
 	ARC_FONT_FILE,
 	ARC_WINDOW_TOGGLE
 };
-
-// Numeric types
-#define ARCFL float
-
-/// alias to point out that this stores radians, not degrees
-// a typedef causes all kind of annoyances, unfortunately
-#define RADIANS ARCFL
-#define DEGREES ARCFL
-
-/// Twice the value of PI
-#define TWOPI M_PI*2
-
-#define DEGREE_TO_RADIAN M_PI/180
-#define RADIAN_TO_DEGREE 180/M_PI
 
 /// possible states a key can be in
 enum KeyStatus

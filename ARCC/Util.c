@@ -1,9 +1,10 @@
 
 #include "Util.h"
 
-bool ARC_UtilFileExists(const char * filename)
+bool ARC_UtilFileExists(char * filename)
 {
-    if (FILE * file = fopen(filename, "r"))
+	FILE* file = fopen(filename, "r");
+    if (file)
     {
         fclose(file);
         return true;

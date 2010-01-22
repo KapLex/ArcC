@@ -8,15 +8,15 @@
 #define ARC_SOUND_H_
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #include <AL/alut.h>
 #include <AL/alc.h>
 #include <AL/al.h>
-#include <AL/alu.h>
-#include <Ogg/ogg.h>
-#include <Vorbis/codec.h>
-#include <Vorbis/vorbisenc.h>
-#include <Vorbis/vorbisfile.h>
+#include <ogg/ogg.h>
+#include <vorbis/codec.h>
+#include <vorbis/vorbisenc.h>
+#include <vorbis/vorbisfile.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -6,16 +6,19 @@
 */
 
 
-#ifndef _UTIL_H_
-#define _UTIL_H_
+#ifndef _ARC_UTIL_H_
+#define _ARC_UTIL_H_
 
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-bool ARC_UtilFileExists(const char * filename);
+bool ARC_UtilFileExists(char * filename);
 
 #ifdef __cplusplus
 }

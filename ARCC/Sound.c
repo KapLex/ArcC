@@ -15,6 +15,8 @@
 
 // ###############################################################################
 
+#include "Sound.h"
+
 ARC_Sound LoadWAV(const char* strFile)
 {
 	ARC_Sound ret = {0};
@@ -46,6 +48,8 @@ ARC_Sound LoadOGG(const char* strFile)
 	ARC_Sound ret = {0};
 	long bytes;
 	//vector<char> buffer; // linked list
+	char buffer[OGG_BUFFER_SIZE];
+	int bufPos=0;
 	int bitStream;
 	char array[OGG_BUFFER_SIZE] = {0};
 	OggVorbis_File oggStream;
@@ -53,7 +57,6 @@ ARC_Sound LoadOGG(const char* strFile)
 	ALenum format;
 	ALsizei freq;
 
-	buffer.clear();
 	FILE* fp = fopen(strFile,"rb");
 	if (fp == NULL) return ret;
 
@@ -76,15 +79,14 @@ ARC_Sound LoadOGG(const char* strFile)
 	do
 	{
 		bytes = ov_read(&oggStream,array,OGG_BUFFER_SIZE,0,2,1,&bitStream);
-		buffer.insert(buffer.end(),array,array + bytes);
+		buffer[bufPos] = array;
+		bufPos++;
 	} while (bytes > 0);
 
 	ov_clear(&oggStream);
 	fclose(fp);
 
-	alBufferData(ret.buffer,format,&buffer[0],static_cast<ALsizei>(buffer.size()),freq);
-
-	buffer.clear();
+	alBufferData(ret.buffer,format,&buffer[0],(ALsizei)bufPos+1,freq);
 
 	alSourcei(ret.source,AL_BUFFER,ret.buffer);
 	SetPitch(ret,1.0f);

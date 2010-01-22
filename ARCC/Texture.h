@@ -20,6 +20,8 @@
 #include <GL/glu.h>
 #include <SDL/SDL.h>
 
+#include "Size.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -55,7 +55,7 @@ int initSDL(ARC_Window *w)
 	{
 		//log.fatal("Window: Failed to initialize SDL Video");
 		//throw new Exception("Window: Failed to initialize SDL Video");
-		log4c_category_log(windowLog, "Failed to initialize SDL Video");
+		log4c_category_log(windowLog, LOG4C_PRIORITY_ERROR, "Failed to initialize SDL Video");
 		return ARC_WINDOW_VIDEO_INIT;
 	}
 
@@ -64,7 +64,7 @@ int initSDL(ARC_Window *w)
 	setupPixelFormat();
 
 	// open SDL window with given video flags
-	w->screen = SDL_SetVideoMode(w->width, w->height, w->bpp,  buildVideoFlags(w));
+	w->screen = SDL_SetVideoMode(w->size.w, w->size.h, w->bpp,  buildVideoFlags(w));
 
 	if (w->screen == NULL)
 	{
@@ -102,7 +102,7 @@ void resizeGL(ARC_Window *w)
 	int originX = 0, originY = 0;
 
 	// viewport
-	glViewport(0,0, w->width, w->height);
+	glViewport(0,0, w->size.w, w->size.h);
 
 	// projection matrix
 	glMatrixMode(GL_PROJECTION);
@@ -119,7 +119,7 @@ void resizeGL(ARC_Window *w)
 
 
 // Open Window
-int ARC_WindowInit(ARC_Window *w, char *title, Size size, int isFS, int isR)
+int ARC_WindowInit(ARC_Window *w, char *title, ARC_Size size, int isFS, int isR)
 {
 	log4c_category_log(windowLog, LOG4C_PRIORITY_INFO, "ARC_WindowInit(...)");
 
@@ -149,7 +149,7 @@ int ARC_WindowQuit(ARC_Window *w)
 }
 
 //	Resize window to desired width and height
-int ARC_WindowResize(ARC_Window *wnd, Size size)
+int ARC_WindowResize(ARC_Window *wnd, ARC_Size size)
 {
 	wnd->size = size;
 
