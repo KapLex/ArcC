@@ -5,8 +5,8 @@
     Internal keyboard processing
 */
 
-#ifndef _ARC_KEYBOARD_H_
-#define _ARC_KEYBOARD_H_
+#ifndef ARC_KEYBOARD_H_
+#define ARC_KEYBOARD_H_
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -14,7 +14,7 @@
 
 #include <SDL/SDL.h>
 
-#include "Types.h"
+#include "../../Types.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,13 +31,14 @@ typedef struct ARC_Keyboard
 	char* lastChars;
 } ARC_Keyboard;
 
+
+
 /*******************************************************************************
 
 		Set all keys in keyboard down
 
 *******************************************************************************/
 void ARC_KeyboardClearHit(ARC_Keyboard *k);
-
 /*******************************************************************************
 
 		clear all data inside this structure
@@ -58,6 +59,7 @@ void ARC_KeyboardProcessKeyDown(ARC_Keyboard *k, SDL_KeyboardEvent *event);
 
 *******************************************************************************/
 void ARC_KeyboardProcessKeyUp(ARC_Keyboard *k, SDL_KeyboardEvent *event);
+
 
 #ifdef __cplusplus
 }

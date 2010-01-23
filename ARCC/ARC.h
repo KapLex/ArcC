@@ -8,14 +8,13 @@
 #ifndef _ARC_H_
 #define _ARC_H_
 
+#include "internal/nedmalloc/nedmalloc.h"
 #include "Window.h"
 #include "Log.h"
 #include "Time.h"
 #include "Font.h"
 #include "Types.h"
 #include "Input.h"
-#include "Mouse.h"
-#include "Keyboard.h"
 #include "Draw.h"
 #include "Util.h"
 #include "Size.h"

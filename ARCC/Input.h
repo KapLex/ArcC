@@ -20,8 +20,8 @@
 #include <SDL/SDL.h>
 
 #include "Types.h"
-#include "Keyboard.h"
-#include "Mouse.h"
+#include "internal/input/Keyboard.h"
+#include "internal/input/Mouse.h"
 #include "Point.h"
 
 #ifdef __cplusplus
@@ -115,15 +115,15 @@ ARCFL ARC_InputGetMouseOldY(ARC_Input *i);
 ARC_Point ARC_InputGetMouseOldPos(ARC_Input *i);
 
 /// returns true when mouse is moving
-bool ARC_InputGetMouseMotion(ARC_Input *i);
+bool ARC_InputIsMouseMoving(ARC_Input *i);
 
 /// set mouse cursor visibility
 void ARC_InputShowCursor(ARC_Input *i, bool argV);
 
 /// returns true when mouse is wheeling up
-bool ARC_InputGetWheelUp(ARC_Input *i);
+bool ARC_InputIsWheelUp(ARC_Input *i);
 /// returns true when mouse is wheeling down
-bool ARC_InputGetWheelDown(ARC_Input *i);
+bool ARC_InputIsWheelDown(ARC_Input *i);
 
 /// return whether SDL window has focus
 bool ARC_InputGetFocus(ARC_Input *i);

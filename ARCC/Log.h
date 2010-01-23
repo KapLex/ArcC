@@ -33,6 +33,8 @@ log4c_category_t* rootLog;
  */
 int ARC_InitLogger(char *appender);
 
+int ARC_Log(int p, char *message);
+
 #ifdef __cplusplus
 }
 #endif

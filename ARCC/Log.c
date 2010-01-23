@@ -18,3 +18,8 @@ int ARC_InitLogger(char* appender)
 
 	return ARC_SUCCESS;
 }
+
+int ARC_Log(int p, char *message)
+{
+	log4c_category_log(rootLog, p, message);
+}

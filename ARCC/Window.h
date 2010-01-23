@@ -91,7 +91,7 @@ int ARC_WindowSaveBMP(ARC_Window *wnd, char* argFile);
 /**
  * Swap GL Buffers then clear the screen
  */
-int ARC_WindowClear(void);
+int ARC_WindowClear(ARC_Window *wnd);
 
 #ifdef __cplusplus
 }

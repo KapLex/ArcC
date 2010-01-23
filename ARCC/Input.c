@@ -110,15 +110,15 @@ ARC_Point ARC_InputGetMouseOldPos(ARC_Input *i)
 }
 
 /// returns true when mouse is moving
-bool ARC_InputGetMouseMotion(ARC_Input *i)          { return i->mouse.moving; }
+bool ARC_InputIsMouseMoving(ARC_Input *i)          { return i->mouse.moving; }
 
 /// set mouse cursor visibility
 void ARC_InputShowCursor(ARC_Input *i, bool argV) { ARC_MouseSetVisible(&i->mouse, argV); }
 
 /// returns true when mouse is wheeling up
-bool ARC_InputGetWheelUp(ARC_Input *i)     { return isSet(i->mouse.buttonStatus[WHEELUP], DOWN);   }
+bool ARC_InputIsWheelUp(ARC_Input *i)     { return isSet(i->mouse.buttonStatus[WHEELUP], DOWN);   }
 /// returns true when mouse is wheeling down
-bool ARC_InputGetWheelDown(ARC_Input *i)   { return isSet(i->mouse.buttonStatus[WHEELDOWN], DOWN); }
+bool ARC_InputIsWheelDown(ARC_Input *i)   { return isSet(i->mouse.buttonStatus[WHEELDOWN], DOWN); }
 
 //
 // other methods

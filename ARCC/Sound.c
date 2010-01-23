@@ -45,7 +45,7 @@ ARC_Sound LoadWAV(const char* strFile)
 
 ARC_Sound LoadOGG(const char* strFile)
 {
-	ARC_Sound ret = {0};
+	ARC_Sound ret;
 	long bytes;
 	//vector<char> buffer; // linked list
 	char buffer[OGG_BUFFER_SIZE];
@@ -86,7 +86,7 @@ ARC_Sound LoadOGG(const char* strFile)
 	ov_clear(&oggStream);
 	fclose(fp);
 
-	alBufferData(ret.buffer,format,&buffer[0],(ALsizei)bufPos+1,freq);
+	alBufferData(ret.buffer,format,&buffer[0],bufPos+1,freq);
 
 	alSourcei(ret.source,AL_BUFFER,ret.buffer);
 	SetPitch(ret,1.0f);
