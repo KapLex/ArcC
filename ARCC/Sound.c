@@ -36,9 +36,9 @@ ARC_Sound LoadWAV(const char* strFile)
 	alutUnloadWAV(format,data,size,freq);
 
 	alSourcei(ret.source,AL_BUFFER,ret.buffer);
-	SetPitch(ret,1.0f);
-	SetGain(ret,1.0f);
-	SetLooping(ret,false);
+	ARC_SoundSetPitch(&ret,1.0f);
+	ARC_SoundSetGain(&ret,1.0f);
+	ARC_SoundSetLooping(&ret,false);
 
 	return ret;
 }
@@ -89,9 +89,9 @@ ARC_Sound LoadOGG(const char* strFile)
 	alBufferData(ret.buffer,format,&buffer[0],bufPos+1,freq);
 
 	alSourcei(ret.source,AL_BUFFER,ret.buffer);
-	SetPitch(ret,1.0f);
-	SetGain(ret,1.0f);
-	SetLooping(ret,false);
+	ARC_SoundSetPitch(&ret,1.0f);
+	ARC_SoundSetGain(&ret,1.0f);
+	ARC_SoundSetLooping(&ret,false);
 
 	return ret;
 }
@@ -113,17 +113,17 @@ ARC_Sound ARC_SoundLoad(const char* strFile)
 	char* type = strchr(strFile,'.');
 	type++;
 
-		 if (strcmpi(type,"wav") == 0) return LoadWAV(strFile);
-	else if (strcmpi(type,"ogg") == 0) return LoadOGG(strFile);
+		 if (strcmp(type,"wav") == 0) return LoadWAV(strFile);
+	else if (strcmp(type,"ogg") == 0) return LoadOGG(strFile);
 
 	return dummy;
 }
 
-void ARC_SoundRemove(ARC_Sound* a)					{ Stop(a); alDeleteSources(1,&a->source); alDeleteBuffers(1,&a->buffer); }
+void ARC_SoundRemove(ARC_Sound* a)					{ ARC_SoundStop(a); alDeleteSources(1,&a->source); alDeleteBuffers(1,&a->buffer); }
 void ARC_SoundPlay(ARC_Sound* id)					{ alSourcePlay(id->source); }
 void ARC_SoundStop(ARC_Sound* id)					{ alSourceStop(id->source); }
 void ARC_SoundPause(ARC_Sound* id)					{ alSourcePause(id->source); }
-void ARC_SoundUnPause(ARC_Sound* id)					{ Play(id); }
+void ARC_SoundUnPause(ARC_Sound* id)					{ ARC_SoundPlay(id); }
 bool ARC_SoundIsPlaying(ARC_Sound* id)				{ ALenum state; alGetSourcei(id->source,AL_SOURCE_STATE,&state); return (state == AL_PLAYING); }
 void ARC_SoundSetLooping(ARC_Sound* id, bool doLoop)	{ alSourcei(id->source,AL_LOOPING,doLoop); }
 void ARC_SoundSetPosition(ARC_Sound* id, float* pos)	{ alSourcefv(id->source,AL_POSITION,pos); }

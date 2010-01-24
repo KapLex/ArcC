@@ -102,7 +102,7 @@ bool ARC_CollisionBoxCircle(ARC_Point* boxPos, ARC_Size* boxSize, ARC_Point* cir
 		//debug writefln("left middle");
 	}
 
-	if (ARC_MathDistance(&circlePos, &g) <= radius)
+	if (ARC_MathDistance(circlePos, &g) <= radius)
 		return true;
 
 	return false;

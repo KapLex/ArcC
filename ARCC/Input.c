@@ -56,7 +56,7 @@ bool ARC_InputIsKeyDown(ARC_Input *i, int keyNum) { return isSet(i->keyboard.sta
 bool ARC_InputIsKeyUp(ARC_Input *i, int keyNum) { return !isSet(i->keyboard.status[keyNum], DOWN);  }
 
 /// returns true if user has hit a character on the keyboard between two calls to process
-bool ARC_InputIsCharHit(ARC_Input *i)           { return ARC_KeyboardIsCharHit(i->keyboard);       }
+bool ARC_InputIsCharHit(ARC_Input *i)           { return i->keyboard.charHit;       }
 /// returns characters hit by the user between two process calls
 char* ARC_InputGetLastChars(ARC_Input *i)         { return i->keyboard.lastChars;      }
 
@@ -145,9 +145,6 @@ void ARC_InputProcess(ARC_Input *i)
 	// Keep on looping through our event until all events are accounted for
 	while (SDL_PollEvent(&event))
 	{
-		// hand the event over to whoever wants it (for now, hybrid's input)
-		eventSignal(event);
-
 		// get the type of event
 		switch (event.type)
 		{
@@ -180,7 +177,7 @@ void ARC_InputProcess(ARC_Input *i)
 
 			case SDL_KEYUP:
 				// handle key up, release keys
-				handleKeyUp(&i->keyboard, event.key);
+				ARC_KeyboardProcessKeyUp(&i->keyboard, &event.key);
 			break;
 
 			case SDL_QUIT:

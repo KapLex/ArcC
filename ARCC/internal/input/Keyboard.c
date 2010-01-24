@@ -22,7 +22,7 @@ void ARC_KeyboardClearHit(ARC_Keyboard *k)
 *******************************************************************************/
 void ARC_KeyboardClear(ARC_Keyboard *k)
 {
-		ARC_KeyboardSetKeysDown(k);
+		ARC_KeyboardClearHit(k);
 		for (int i = 0; i < ARC_LAST; i++)
 			k->status[i] = UP;
 }

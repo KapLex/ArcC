@@ -1,14 +1,6 @@
 
 #include "Font.h"
-
-///This function gets the first power of 2 >= the
-///int that we pass it.
-inline int next_p2 ( int a )
-{
-	int rval=1;
-	while(rval<a) rval<<=1;
-	return rval;
-}
+#include "Math.h"
 
 ///Create a display list coresponding to the give character.
 int make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base )
@@ -51,8 +43,8 @@ int make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base )
 	//Use our helper function to get the widths of
 	//the bitmap data that we will need in order to create
 	//our texture.
-	int width = next_p2( bitmap.width );
-	int height = next_p2( bitmap.rows );
+	int width = ARC_MathNextPowerOfTwo( bitmap.width );
+	int height = ARC_MathNextPowerOfTwo( bitmap.rows );
 
 	//Allocate memory for the texture data.
 	GLubyte expanded_data[2*width*height]; //new GLubyte[ 2 * width * height];
@@ -143,10 +135,11 @@ int make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint * tex_base )
 }
 
 
-int ARC_FontInit()
+int ARC_FontInit(void)
 {
 	fontLog = log4c_category_get("arc.font");
 	log4c_category_log(fontLog, LOG4C_PRIORITY_INFO, "ARC_FontInit()");
+	return ARC_SUCCESS;
 }
 
 int ARC_FontLoad(ARC_Font *f,  char *fname, unsigned int height)
@@ -205,10 +198,20 @@ int ARC_FontLoad(ARC_Font *f,  char *fname, unsigned int height)
 	return ARC_SUCCESS;
 }
 
+int ARC_FontQuit(ARC_Font *f)
+{
+	glDeleteLists(f->list_base,128);
+	glDeleteTextures(128,f->textures);
+	//delete [] textures;
+
+	return ARC_SUCCESS;
+}
+
+
 /// A fairly straight forward function that pushes
 /// a projection matrix that will make object world
 /// coordinates identical to window coordinates.
-inline void pushScreenCoordinateMatrix(void)
+void pushScreenCoordinateMatrix(void)
 {
 	glPushAttrib(GL_TRANSFORM_BIT);
 	GLint	viewport[4];
@@ -220,18 +223,10 @@ inline void pushScreenCoordinateMatrix(void)
 	glPopAttrib();
 }
 
-int ARC_FontQuit(ARC_Font *f)
-{
-	glDeleteLists(f->list_base,128);
-	glDeleteTextures(128,f->textures);
-	//delete [] textures;
-
-	return ARC_SUCCESS;
-}
-
 /// Pops the projection matrix without changing the current
 /// MatrixMode.
-inline void pop_projection_matrix(void) {
+void pop_projection_matrix(void)
+{
 	glPushAttrib(GL_TRANSFORM_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

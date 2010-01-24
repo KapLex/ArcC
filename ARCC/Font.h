@@ -37,7 +37,7 @@ typedef struct ARC_Font
 	GLuint list_base;	///< Holds the first display list id
 } ARC_Font;
 
-int ARC_FontInit();
+int ARC_FontInit(void);
 
 int ARC_FontLoad(ARC_Font *font, char *fname, unsigned int height);
 

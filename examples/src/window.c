@@ -1,5 +1,5 @@
-#include "Window.h"
-#include "Input.h"
+#include "ARCC/Window.h"
+#include "ARCC/Input.h"
 
 // main is just here to handle states
 int main()
@@ -9,10 +9,10 @@ int main()
 	ARC_WindowInit(&wnd, "Window example", &sz, false, true);
 
 	ARC_Input input;
-	ARC_InputInit(&input);
+	ARC_InputInit(&input, true);
 
 	// main loop
-	while (!ARC_InputKeyPressed(&input, ARC_QUIT))
+	while (!ARC_InputIsKeyPressed(&input, ARC_QUIT))
 	{
 		// clear the screen before drawing
 		ARC_WindowClear(&wnd);

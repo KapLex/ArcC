@@ -333,7 +333,7 @@ typedef struct ARC_DrawOptions
 	int detail;
 } ARC_DrawOptions;
 
-void ARC_DrawInit();
+void ARC_DrawInit(void);
 
 void ARC_DrawSetGLColor(ARC_Color*c);
 

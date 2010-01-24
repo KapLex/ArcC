@@ -1,52 +1,25 @@
 #include "Texture.h"
-#include "Util.h"
 
-void ARC_TextureInit()
+void ARC_TextureInit(void)
 {
 	textureLog = log4c_category_get("arc.texture");
 	gTextureCount = 0;
 }
 
-ARC_Texture* ARC_TextureLoad(char* fileName, ARC_TextureOptions* opts)
-{
-	// load texture
-	ARC_Texture t;
-	strcpy(t.fileName, fileName);
-	loadTexture(&t, fileName);
-
-	if (!opts->keep)
-	{
-		SDL_FreeSurface(t.image);
-	}
-
-	return &t;
-}
-
-void ARC_TextureDestroy(ARC_Texture *t)
-{
-	glDeleteTextures(1, t->ID);
-}
-
-/// Enable texturing
-void ARC_TextureEnable(ARC_Texture *t)
-{
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, t->ID);
-}
 
 // hide loadTexture because using it by itself is not 'resource safe'
 // you may end up with the same resource loaded twice
 /// load texture based on texture's file name
 int loadTexture(ARC_Texture *t, char* texFileName)
 {
-	if (!fileExists(texFileName))
+	if (!ARC_UtilFileExists(texFileName))
 	{
 		log4c_category_log(textureLog, LOG4C_PRIORITY_ERROR, "Texture does not exist!");
 		return EXIT_FAILURE;
 	}
 
 	// read SDL image
-	t->image = IMG_Load(toStringz(texFileName));
+	t->image = IMG_Load(texFileName);
 
 	if (t->image == NULL)
 	{
@@ -59,8 +32,8 @@ int loadTexture(ARC_Texture *t, char* texFileName)
 	Uint32 orig_h = t->image->h;
 
 	// calculate nearest power-of-two size
-	Uint32 pot_w = nextPowerOfTwo(t->image->w);
-	Uint32 pot_h = nextPowerOfTwo(t->image->h);
+	Uint32 pot_w = ARC_MathNextPowerOfTwo(t->image->w);
+	Uint32 pot_h = ARC_MathNextPowerOfTwo(t->image->h);
 
 	// convert image to 32 bit RGBA image of power of two size if needed
 	if ( ((t->image->format->BitsPerPixel != 32)) || t->image->w != pot_w || t->image->h != pot_h)
@@ -106,6 +79,34 @@ int loadTexture(ARC_Texture *t, char* texFileName)
 	t->imageSize.h = orig_h;
 
 	t->ID = gTextureCount;
+
+	return ARC_SUCCESS;
 }
 
+ARC_Texture ARC_TextureLoad(char* fileName, ARC_TextureOptions* opts)
+{
+	// load texture
+	ARC_Texture t;
+	strcpy(t.fileName, fileName);
+	loadTexture(&t, fileName);
+
+	if (!opts->keep)
+	{
+		SDL_FreeSurface(t.image);
+	}
+
+	return t;
+}
+
+void ARC_TextureDestroy(ARC_Texture *t)
+{
+	glDeleteTextures(1, t->ID);
+}
+
+/// Enable texturing
+void ARC_TextureEnable(ARC_Texture *t)
+{
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, t->ID);
+}
 

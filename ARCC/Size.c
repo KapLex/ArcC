@@ -138,8 +138,8 @@ ARC_Size* ARC_SizeClamp(ARC_Size* s, ARC_Size* min, ARC_Size* max)
 ARC_Size* ARC_SizeRandomise(ARC_Size* s, ARC_Size* wMin, ARC_Size* wMax)
 {
 	//TODO: this cast(int) looks odd
-	s->w = randomRange((int)wMin->w, (int)wMax->w);
-	s->h = randomRange((int)wMin->h, (int)wMax->h);
+	s->w = ARC_MathRandomRange((int)wMin->w, (int)wMax->w);
+	s->h = ARC_MathRandomRange((int)wMin->h, (int)wMax->h);
 	return s;
 }
 

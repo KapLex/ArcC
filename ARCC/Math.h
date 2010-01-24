@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include <time.h>
 
 #include "Types.h"
 #include "Point.h"
@@ -18,7 +19,7 @@
 extern "C" {
 #endif
 
-void ARC_MathInit();
+void ARC_MathInit(void);
 
 /// converts an angle in DEGREES to RADIANS
 RADIANS ARC_MathDegreesToRadians(DEGREES deg);
@@ -77,7 +78,7 @@ ARCFL ARC_MathWrapf(ARCFL x, ARCFL min, ARCFL max);
 ARCFL ARC_MathSignf(ARCFL x);
 
 /// Random number in range [-1,1]
-ARCFL ARC_MathRandom();
+ARCFL ARC_MathRandom(void);
 
 #ifdef __cplusplus
 }

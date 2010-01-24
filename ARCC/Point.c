@@ -238,10 +238,10 @@ ARC_Point ARC_PointPerp(ARC_Point *p)
 ///
 ARC_Point* ARC_PointClampMax(ARC_Point *p, ARCFL max)
 {
-	ARCFL l = magnitude();
+	ARCFL l = ARC_PointMagnitude(p);
 
 	if (l > max)
-		ARC_PointMulAssign(p, ARC_PointDivf(l, max));
+		ARC_PointMulAssignf(p, l / max);
 	return p;
 }
 

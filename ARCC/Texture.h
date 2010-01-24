@@ -19,8 +19,12 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 #include "Size.h"
+#include "Util.h"
+#include "Types.h"
+#include "Math.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,9 +47,9 @@ typedef struct ARC_TextureOptions
 	bool keep;
 } ARC_TextureOptions;
 
-void ARC_TextureInit();
+void ARC_TextureInit(void);
 
-ARC_Texture* ARC_TextureLoad(char* fileName, ARC_TextureOptions* opts);
+ARC_Texture ARC_TextureLoad(char* fileName, ARC_TextureOptions* opts);
 
 void ARC_TextureDestroy(ARC_Texture *t);
 

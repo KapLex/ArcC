@@ -1,6 +1,6 @@
-#include "Window.h"
-#include "Input.h"
-#include "Log.h"
+#include "ARCC/Window.h"
+#include "ARCC/Input.h"
+#include "ARCC/Log.h"
 
 // main is just here to handle states
 int main()

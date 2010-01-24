@@ -103,7 +103,7 @@ void ARC_DrawImageTopLeft(ARC_Texture* texture, ARC_Point* pos, ARC_Size* size, 
 	glBindTexture(GL_TEXTURE_2D, texture->ID);
 
 	// set color to one given
-	ARC_DrawColorSetGL(color);
+	ARC_DrawSetGLColor(color);
 
 	glPushMatrix();
 
@@ -177,7 +177,7 @@ void ARC_DrawPixel(ARC_Point* pos, ARC_DrawOptions* attr)
 	glDisable(GL_TEXTURE_2D);
 
 	// set color to one given
-	ARC_DrawColorSetGL(attr->fill);
+	ARC_DrawSetGLColor(attr->fill);
 
 	// make sure the line width is only 1 pixel wide
 	glLineWidth(1);
@@ -198,7 +198,7 @@ void ARC_DrawLine( ARC_Point* pos1, ARC_Point* pos2, ARC_DrawOptions* attr )
 	glDisable(GL_TEXTURE_2D);
 
 	// set color to one given
-	ARC_DrawColorSetGL(attr->stroke);
+	ARC_DrawSetGLColor(attr->stroke);
 
 	glEnable(GL_LINE_SMOOTH);
 
@@ -220,12 +220,12 @@ void ARC_DrawCircle(ARC_Point* pos, ARCFL radius, ARC_DrawOptions* attr)
 	// we will be drawing lines
 	if (attr->isFill)
 	{
-		ARC_DrawColorSetGL(attr->fill);
+		ARC_DrawSetGLColor(attr->fill);
 		glBegin(GL_POLYGON);
 	}
 	else
 	{
-		ARC_DrawColorSetGL(attr->stroke);
+		ARC_DrawSetGLColor(attr->stroke);
 		glLineWidth(attr->strokeWidth);
 		glEnable(GL_LINE_SMOOTH);
 		glBegin(GL_LINE_LOOP);
@@ -240,7 +240,7 @@ void ARC_DrawCircle(ARC_Point* pos, ARCFL radius, ARC_DrawOptions* attr)
 		py = i;
 
 		// translate it to rectangular
-		py = degreesToRadians(py); // convert degrees to radian
+		py = ARC_MathDegreesToRadians(py); // convert degrees to radian
 
 		ARCFL x_save = px;
 
@@ -263,12 +263,12 @@ void ARC_DrawEllipse(ARC_Point* pos, ARC_Point* radius, ARC_DrawOptions* attr)
 	// we will be drawing lines
 	if (attr->isFill)
 	{
-		ARC_DrawColorSetGL(attr->fill);
+		ARC_DrawSetGLColor(attr->fill);
 		glBegin(GL_POLYGON);
 	}
 	else
 	{
-		ARC_DrawColorSetGL(attr->stroke);
+		ARC_DrawSetGLColor(attr->stroke);
 		glLineWidth(attr->strokeWidth);
 		glEnable(GL_LINE_SMOOTH);
 		glBegin(GL_LINE_LOOP);
@@ -276,7 +276,7 @@ void ARC_DrawEllipse(ARC_Point* pos, ARC_Point* radius, ARC_DrawOptions* attr)
 
 	for (ARCFL i = 0; i < 360; i+= 360.0/attr->detail)
 	{
-		float degInRad = degreesToRadians(i);
+		float degInRad = ARC_MathDegreesToRadians(i);
 		glVertex2f(pos->x+cos(degInRad)*radius->x, pos->y+sin(degInRad)*radius->y);
 	}
 
@@ -290,17 +290,17 @@ void ARC_DrawRectangle(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr)
 	glDisable(GL_TEXTURE_2D);
 
 	// set color to one given
-	ARC_DrawColorSetGL(attr->fill);
+	ARC_DrawSetGLColor(attr->fill);
 
 	// we will be drawing lines
 	if (attr->isFill)
 	{
-		ARC_DrawColorSetGL(attr->fill);
+		ARC_DrawSetGLColor(attr->fill);
 		glBegin(GL_POLYGON);
 	}
 	else
 	{
-		ARC_DrawColorSetGL(attr->stroke);
+		ARC_DrawSetGLColor(attr->stroke);
 		glLineWidth(attr->strokeWidth);
 		glEnable(GL_LINE_SMOOTH);
 		glBegin(GL_LINE_LOOP);
@@ -327,12 +327,12 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 	// we will be drawing lines
 	if (attr->isFill)
 	{
-		ARC_DrawColorSetGL(attr->fill);
+		ARC_DrawSetGLColor(attr->fill);
 		glBegin(GL_POLYGON);
 	}
 	else
 	{
-		ARC_DrawColorSetGL(attr->stroke);
+		ARC_DrawSetGLColor(attr->stroke);
 		glLineWidth(attr->strokeWidth);
 		glEnable(GL_LINE_SMOOTH);
 		glBegin(GL_LINE_LOOP);
@@ -355,7 +355,7 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 		py = i;
 
 		// translate it to rectangular
-		py = degreesToRadians(py); // convert degrees to radian
+		py = ARC_MathDegreesToRadians(py); // convert degrees to radian
 
 		ARCFL x_save = px;
 
@@ -381,7 +381,7 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 		py = i;
 
 		// translate it to rectangular
-		py = degreesToRadians(py); // convert degrees to radian
+		py = ARC_MathDegreesToRadians(py); // convert degrees to radian
 
 		ARCFL x_save = px;
 
@@ -400,7 +400,7 @@ void ARC_DrawRoundEdgeRect(ARC_Point* pos, ARC_Size* size, ARC_DrawOptions* attr
 		py = i;
 
 		// translate it to rectangular
-		py = degreesToRadians(py); // convert degrees to radian
+		py = ARC_MathDegreesToRadians(py); // convert degrees to radian
 
 		ARCFL x_save = px;
 
@@ -426,12 +426,12 @@ void ARC_DrawPolygon(ARC_Point* pos, ARC_Point* polygon, int polylength, ARC_Dra
 	// we will be drawing lines
 	if (attr->isFill)
 	{
-		ARC_DrawColorSetGL(attr->fill);
+		ARC_DrawSetGLColor(attr->fill);
 		glBegin(GL_POLYGON);
 	}
 	else
 	{
-		ARC_DrawColorSetGL(attr->stroke);
+		ARC_DrawSetGLColor(attr->stroke);
 		glLineWidth(attr->strokeWidth);
 		glEnable(GL_LINE_SMOOTH);
 		glBegin(GL_LINE_LOOP);
@@ -451,7 +451,7 @@ void ARC_DrawPolyLine(ARC_Point* pos, ARC_Point* polygon, int polylength, ARC_Dr
 	// disable images
 	glDisable(GL_TEXTURE_2D);
 
-	ARC_DrawColorSetGL(attr->stroke);
+	ARC_DrawSetGLColor(attr->stroke);
 	glLineWidth(attr->strokeWidth);
 	glEnable(GL_LINE_SMOOTH);
 	glBegin(GL_LINES);
