@@ -38,7 +38,7 @@ typedef struct ARC_Window
 	char *title;
 
 	/// Window width and height
-	ARC_Size size;
+	ARC_Size *size;
 
 	/// Whether or not window is fullscreen
 	int isFullscreen;
@@ -63,7 +63,7 @@ typedef struct ARC_Window
  * \param Whether Window is fullscreen or not
  * \param Whether Window is resizable or not
  */
-int ARC_WindowInit(ARC_Window *w, char *title, ARC_Size ws, int isFS, int isR);
+int ARC_WindowInit(ARC_Window *w, char *title, ARC_Size* ws, int isFS, int isR);
 
 /**
  * Resize the window
@@ -71,7 +71,7 @@ int ARC_WindowInit(ARC_Window *w, char *title, ARC_Size ws, int isFS, int isR);
  * \param Width to resize to
  * \param Height to resize to
  */
-int ARC_WindowResize(ARC_Window *w, ARC_Size ns);
+int ARC_WindowResize(ARC_Window *w, ARC_Size *ns);
 
 /**
  * Close the game application

@@ -64,7 +64,7 @@ int initSDL(ARC_Window *w)
 	setupPixelFormat();
 
 	// open SDL window with given video flags
-	w->screen = SDL_SetVideoMode(w->size.w, w->size.h, w->bpp,  buildVideoFlags(w));
+	w->screen = SDL_SetVideoMode(w->size->w, w->size->h, w->bpp,  buildVideoFlags(w));
 
 	if (w->screen == NULL)
 	{
@@ -102,12 +102,12 @@ void resizeGL(ARC_Window *w)
 	int originX = 0, originY = 0;
 
 	// viewport
-	glViewport(0,0, w->size.w, w->size.h);
+	glViewport(0,0, w->size->w, w->size->h);
 
 	// projection matrix
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(originX, originX + w->size.w, originY + w->size.h, originY, -1.0f, 1.0f);
+	glOrtho(originX, originX + w->size->w, originY + w->size->h, originY, -1.0f, 1.0f);
 
 	// modelview matrix
 	glMatrixMode(GL_MODELVIEW);
@@ -119,7 +119,7 @@ void resizeGL(ARC_Window *w)
 
 
 // Open Window
-int ARC_WindowInit(ARC_Window *w, char *title, ARC_Size size, int isFS, int isR)
+int ARC_WindowInit(ARC_Window *w, char *title, ARC_Size* size, int isFS, int isR)
 {
 	log4c_category_log(windowLog, LOG4C_PRIORITY_INFO, "ARC_WindowInit(...)");
 
@@ -149,14 +149,14 @@ int ARC_WindowQuit(ARC_Window *w)
 }
 
 //	Resize window to desired width and height
-int ARC_WindowResize(ARC_Window *wnd, ARC_Size size)
+int ARC_WindowResize(ARC_Window *wnd, ARC_Size* size)
 {
 	wnd->size = size;
 
 	if (wnd->isFullscreen == true)
-		wnd->screen = SDL_SetVideoMode(size.w, size.h, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_FULLSCREEN|SDL_RESIZABLE);
+		wnd->screen = SDL_SetVideoMode(size->w, size->h, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_FULLSCREEN|SDL_RESIZABLE);
 	else
-		wnd->screen = SDL_SetVideoMode(size.w, size.h, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_RESIZABLE);
+		wnd->screen = SDL_SetVideoMode(size->w, size->h, wnd->bpp, SDL_OPENGL|SDL_HWPALETTE|SDL_RESIZABLE);
 
 	resizeGL(wnd);
 

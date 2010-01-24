@@ -137,27 +137,27 @@ ARC_Point ARC_PointDiv(ARC_Point *p, ARCFL s)
 }
 
 /** Vector addition */
-ARC_Point* ARC_PointAddAssign(ARC_Point *p, ARC_Point Other)
+ARC_Point* ARC_PointAddAssign(ARC_Point *p, ARC_Point* Other)
 {
-	p->x += Other.x;
-	p->y += Other.y;
+	p->x += Other->x;
+	p->y += Other->y;
 	return p;
 }
 
 ///
-ARC_Point ARC_PointAdd(ARC_Point *p, ARC_Point V)
+ARC_Point ARC_PointAdd(ARC_Point *p, ARC_Point* V)
 {
 	ARC_Point np;
-	np.x = p->x + V.x;
-	np.y = p->y + V.y;
+	np.x = p->x + V->x;
+	np.y = p->y + V->y;
 	return np;
 }
 
 ///
-ARC_Point* ARC_PointSubAssign(ARC_Point *p, ARC_Point Other)
+ARC_Point* ARC_PointSubAssign(ARC_Point *p, ARC_Point* Other)
 {
-	p->x -= Other.x;
-	p->y -= Other.y;
+	p->x -= Other->x;
+	p->y -= Other->y;
 	return p;
 }
 
@@ -321,6 +321,7 @@ ARC_Point ARC_PointRotateRight90(ARC_Point *p)
 	ARC_Point np;
 	np.x = -p->x;
 	np.y = p->y;
-	return np; }
+	return np;
+}
 
 
