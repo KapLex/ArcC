@@ -31,7 +31,7 @@ log4c_category_t* rootLog;
  *
  * Note: ARC_Quit() closes the log subsystem (as well as other subsystems) file for us
  */
-int ARC_InitLogger(char *appender);
+int ARC_LogInit(char *appender);
 
 int ARC_Log(int p, char *message);
 

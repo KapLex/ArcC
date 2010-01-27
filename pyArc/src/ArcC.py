@@ -74,9 +74,11 @@ ARC_Font_swigregister(ARC_Font)
 cvar = _ArcC.cvar
 
 ARC_FontInit = _ArcC.ARC_FontInit
+ARC_FontLoad = _ArcC.ARC_FontLoad
 ARC_FontQuit = _ArcC.ARC_FontQuit
 ARC_FontRender = _ArcC.ARC_FontRender
-ARC_InitLogger = _ArcC.ARC_InitLogger
+ARC_LogInit = _ArcC.ARC_LogInit
+ARC_Log = _ArcC.ARC_Log
 class ARC_Time(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, ARC_Time, name, value)
@@ -122,12 +124,9 @@ class ARC_Window(_object):
     __swig_setmethods__["title"] = _ArcC.ARC_Window_title_set
     __swig_getmethods__["title"] = _ArcC.ARC_Window_title_get
     if _newclass:title = _swig_property(_ArcC.ARC_Window_title_get, _ArcC.ARC_Window_title_set)
-    __swig_setmethods__["width"] = _ArcC.ARC_Window_width_set
-    __swig_getmethods__["width"] = _ArcC.ARC_Window_width_get
-    if _newclass:width = _swig_property(_ArcC.ARC_Window_width_get, _ArcC.ARC_Window_width_set)
-    __swig_setmethods__["height"] = _ArcC.ARC_Window_height_set
-    __swig_getmethods__["height"] = _ArcC.ARC_Window_height_get
-    if _newclass:height = _swig_property(_ArcC.ARC_Window_height_get, _ArcC.ARC_Window_height_set)
+    __swig_setmethods__["size"] = _ArcC.ARC_Window_size_set
+    __swig_getmethods__["size"] = _ArcC.ARC_Window_size_get
+    if _newclass:size = _swig_property(_ArcC.ARC_Window_size_get, _ArcC.ARC_Window_size_set)
     __swig_setmethods__["isFullscreen"] = _ArcC.ARC_Window_isFullscreen_set
     __swig_getmethods__["isFullscreen"] = _ArcC.ARC_Window_isFullscreen_get
     if _newclass:isFullscreen = _swig_property(_ArcC.ARC_Window_isFullscreen_get, _ArcC.ARC_Window_isFullscreen_set)
@@ -149,7 +148,7 @@ class ARC_Window(_object):
 ARC_Window_swigregister = _ArcC.ARC_Window_swigregister
 ARC_Window_swigregister(ARC_Window)
 
-ARC_WindowInt = _ArcC.ARC_WindowInt
+ARC_WindowInit = _ArcC.ARC_WindowInit
 ARC_WindowResize = _ArcC.ARC_WindowResize
 ARC_WindowQuit = _ArcC.ARC_WindowQuit
 ARC_WindowToggleFullScreen = _ArcC.ARC_WindowToggleFullScreen

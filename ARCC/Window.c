@@ -132,7 +132,12 @@ int ARC_WindowInit(ARC_Window *w, char *title, ARC_Size* size, int isFS, int isR
 	initLog();
 
 	int initSuccess = initSDL(w);
-	if (!initSuccess) return initSuccess;
+
+	if (!initSuccess)
+	{
+		log4c_category_log(windowLog, LOG4C_PRIORITY_ERROR, "Failed to init SDL");
+		return initSuccess;
+	}
 
 	resizeGL(w);
 

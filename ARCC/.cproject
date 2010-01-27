@@ -33,7 +33,7 @@
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.815364264" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug">
 <option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.720020593" name="Optimization Level" superClass="gnu.c.compiler.so.debug.option.optimization.level" valueType="enumerated"/>
 <option id="gnu.c.compiler.so.debug.option.debugging.level.1078179300" name="Debug Level" superClass="gnu.c.compiler.so.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-<option id="gnu.c.compiler.option.misc.other.2047308755" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -std=gnu99 -Wstrict-prototypes -Wall " valueType="string"/>
+<option id="gnu.c.compiler.option.misc.other.2047308755" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -std=gnu99 -Wstrict-prototypes -Wall -fPIC -shared" valueType="string"/>
 <option id="gnu.c.compiler.option.include.paths.2046226629" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 <listOptionValue builtIn="false" value="/usr/include"/>
 <listOptionValue builtIn="false" value="/usr/include/freetype2 "/>

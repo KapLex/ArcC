@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "Types.h"
 
-int ARC_InitLogger(char* appender)
+int ARC_LogInit(char* appender)
 {
 	if (log4c_init())
 	{
