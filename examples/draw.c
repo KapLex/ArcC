@@ -13,8 +13,8 @@ int main()
 	ARC_Input input;
 	ARC_InputInit(&input, true);
 
-	ARC_Texture* t1;
-	ARC_Texture* t2;
+	ARC_Texture t1;
+	ARC_Texture t2;
 	ARC_TextureOptions opt1, opt2;
 	opt1.keep = true;
 	opt2.keep = false;
@@ -37,7 +37,7 @@ int main()
 	ARC_Size s1 = {50,100};
 
 	// main loop
-	while (!ARC_InputKeyPressed(&input, ARC_QUIT))
+	while (!ARC_InputIsKeyPressed(&input, ARC_QUIT))
 	{
 		mouse = ARC_InputGetMousePos(&input);
 		off1 = ARC_PointAdd(&mouse, &pos1);

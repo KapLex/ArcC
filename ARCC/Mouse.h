@@ -10,7 +10,7 @@
 
 #include <stdbool.h>
 #include <SDL/SDL.h>
-#include "../../Types.h"
+#include "Types.h"
 
 #ifdef __cplusplus
 extern "C" {

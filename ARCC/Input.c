@@ -69,13 +69,13 @@ char* ARC_InputGetLastChars(ARC_Input *i)         { return i->keyboard.lastChars
 enum KeyStatus ARC_InputGetMouseButtonStatus(ARC_Input *i, int keyNum) { return i->mouse.buttonStatus[keyNum]; }
 
 /// returns true if mouse button has gone from up to down between calls to process
-bool ARC_InputGetMouseButtonPressed(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], PRESSED); }
+bool ARC_InputIsMouseButtonPressed(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], PRESSED); }
 /// returns true if mouse button has gone from down to up between calls to process
-bool ARC_InputGetMouseButtonReleased(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], RELEASED); }
+bool ARC_InputIsMouseButtonReleased(ARC_Input *i, int keyNum) { return isSet(i->mouse.buttonStatus[keyNum], RELEASED); }
 /// returns true if user holds mouse button down
-bool ARC_InputGetMouseButtonDown(ARC_Input *i, int keyNum)  { return isSet(i->mouse.buttonStatus[keyNum], DOWN); }
+bool ARC_InputIsMouseButtonDown(ARC_Input *i, int keyNum)  { return isSet(i->mouse.buttonStatus[keyNum], DOWN); }
 /// returns true if user doesn't hold mouse button down
-bool ARC_InputGetMouseButtonUp(ARC_Input *i, int keyNum)  { return !isSet(i->mouse.buttonStatus[keyNum], DOWN); }
+bool ARC_InputIsMouseButtonUp(ARC_Input *i, int keyNum)  { return !isSet(i->mouse.buttonStatus[keyNum], DOWN); }
 
 
 // NOTE: for the arc 2D game engine, mouse.x and mouse.y are only used

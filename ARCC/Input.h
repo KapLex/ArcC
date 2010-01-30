@@ -20,8 +20,8 @@
 #include <SDL/SDL.h>
 
 #include "Types.h"
-#include "internal/input/Keyboard.h"
-#include "internal/input/Mouse.h"
+#include "Keyboard.h"
+#include "Mouse.h"
 #include "Point.h"
 
 #ifdef __cplusplus
@@ -86,13 +86,13 @@ char* ARC_InputGetLastChars(ARC_Input *i);
 enum KeyStatus ARC_InputGetMouseButtonStatus(ARC_Input *i, int keyNum);
 
 /// returns true if mouse button has gone from up to down between calls to process
-bool ARC_InputGetMouseButtonPressed(ARC_Input *i, int keyNum);
+bool ARC_InputIsMouseButtonPressed(ARC_Input *i, int keyNum);
 /// returns true if mouse button has gone from down to up between calls to process
-bool ARC_InputGetMouseButtonReleased(ARC_Input *i, int keyNum);
+bool ARC_InputIsMouseButtonReleased(ARC_Input *i, int keyNum);
 /// returns true if user holds mouse button down
-bool ARC_InputGetMouseButtonDown(ARC_Input *i, int keyNum);
+bool ARC_InputIsMouseButtonDown(ARC_Input *i, int keyNum);
 /// returns true if user doesn't hold mouse button down
-bool ARC_InputGetMouseButtonUp(ARC_Input *i, int keyNum);
+bool ARC_InputIsMouseButtonUp(ARC_Input *i, int keyNum);
 
 
 // NOTE: for the arc 2D game engine, mouse.x and mouse.y are only used
